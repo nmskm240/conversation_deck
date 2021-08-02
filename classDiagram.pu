@@ -1,0 +1,49 @@
+@startuml Conversation deck
+
+package Pages
+{
+    class CardListPage
+    class CardMakePage
+    class ConversationPage
+    class DeckMakePage
+    class MenuPage
+}
+
+class TalkCard
+{
+    -_title:String
+    -_summary:String
+    -_talkDetail:TalkDetail
+    -_useCount:int
+    +<<property>>title:String{get only}
+    +<<property>>summary:String{get only}
+    +use():void
+}
+class TalkDetail
+{
+    -_when:DateTime
+    -_where:String
+    -_who:String
+    -_what:String
+    -_why:String
+    -_how:String
+    -_other:String
+    +<<property>>when:DateTime
+    +<<property>>where:String
+    +<<property>>who:String
+    +<<property>>what:String
+    +<<property>>why:String
+    +<<property>>how:String
+    +<<property>>other:String
+}
+class Deck
+{
+    -_name:String
+    -_cards:List
+    +<<property>>name:String{get only}
+}
+
+TalkCard --* TalkDetail
+Deck --* TalkCard
+
+@enduml
