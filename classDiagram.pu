@@ -1,23 +1,12 @@
-@startuml Conversation deck
-
-package Pages
-{
-    class CardListPage
-    class CardMakePage
-    class ConversationPage
-    class DeckMakePage
-    class MenuPage
-}
-
+@startuml Conversation deck cards
 class TalkCard
 {
     -_title:String
-    -_summary:String
     -_talkDetail:TalkDetail
     -_useCount:int
     +<<property>>title:String{get only}
-    +<<property>>summary:String{get only}
     +use():void
+    +delete():void
 }
 class TalkDetail
 {
@@ -36,14 +25,21 @@ class TalkDetail
     +<<property>>how:String
     +<<property>>other:String
 }
+abstract CardHolder
+{
+    +cards:List
+}
 class Deck
 {
     -_name:String
-    -_cards:List
-    +<<property>>name:String{get only}
+    +<<property>>name:String
+    +draw(count:int):List<TalkCard>
+    +shuffle():void
+    +delete():void
 }
 
-TalkCard --* TalkDetail
-Deck --* TalkCard
+TalkCard *--> TalkDetail
+CardHolder *-- TalkCard
+Deck --|> CardHolder
 
 @enduml

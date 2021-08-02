@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:conversation_deck/Time.dart';
+
 class TalkDetail {
-  DateTime? _when;
+  Time _when = Time.Today;
   String? _where;
   String? _who;
   String? _what;
@@ -7,7 +11,7 @@ class TalkDetail {
   String? _how;
   String? _other;
 
-  DateTime? get when => _when;
+  Time get when => _when;
   String? get where => _where;
   String? get who => _who;
   String? get what => _what;
@@ -15,7 +19,7 @@ class TalkDetail {
   String? get how => _how;
   String? get other => _other;
 
-  set when(DateTime? dateTime) => {_when = dateTime};
+  set when(Time o) => {_when = o};
   set where(String? s) => {_where = s};
   set who(String? s) => {_who = s};
   set what(String? s) => {_what = s};
@@ -24,7 +28,7 @@ class TalkDetail {
   set other(String? s) => {_other = s};
 
   TalkDetail(
-      {DateTime? when,
+      {Time when = Time.Today,
       String? where,
       String? who,
       String? what,
@@ -39,4 +43,23 @@ class TalkDetail {
     _how = how;
     _other = other;
   }
+
+  TalkDetail.fromJson(Map<String, dynamic> json)
+      : _when = Time.values[json["when"]],
+        _where = json["where"],
+        _who = json["who"],
+        _what = json["what"],
+        _why = json["why"],
+        _how = json["how"],
+        _other = json["other"];
+
+  Map<String, dynamic> toJson() => {
+        "when": _when.index,
+        "where": _where,
+        "who": _who,
+        "what": _what,
+        "why": _why,
+        "how": _how,
+        "other": _other
+      };
 }
