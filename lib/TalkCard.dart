@@ -1,20 +1,18 @@
-import 'dart:convert';
-
+import 'Database/DatabaseItem.dart';
 import 'package:conversation_deck/TalkDetail.dart';
 
-class TalkCard {
-  var _title = '';
-  var _summary = '';
+class TalkCard extends DatabaseItem {
+  var _title = "";
   var _talkDetail = new TalkDetail();
   var _useCount = 0;
 
-  String? get title => _title;
-  String? get summary => _summary;
-  TalkDetail get detail => _talkDetail;
+  @override
+  String get name => _title;
+  @override
+  set name(String s) => {_title = s};
 
-  TalkCard(String title, String summary, TalkDetail detail) {
+  TalkCard(String title, TalkDetail detail) {
     _title = title;
-    _summary = summary;
     _talkDetail = detail;
   }
 
@@ -22,16 +20,11 @@ class TalkCard {
     _useCount++;
   }
 
-  TalkCard.fromJson(Map<String, dynamic> json)
-      : _title = json["title"],
-        _summary = json["summary"],
+  TalkCard.deserialize(Map<String, dynamic> json)
+      : _title = json["name"],
         _talkDetail = json["detail"],
         _useCount = json["count"];
 
-  Map<String, dynamic> toJson() => {
-        "title": _title,
-        "summary": _summary,
-        "detail": _talkDetail,
-        "count": _useCount
-      };
+  Map<String, dynamic> serialize() =>
+      {"name": _title, "detail": _talkDetail, "count": _useCount};
 }

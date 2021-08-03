@@ -1,12 +1,59 @@
 @startuml Conversation deck cards
+package Database
+{
+    abstract DatabaseItem
+    {
+        -_id:int
+        -_name:String
+        -_detail:String
+        +<<property>>id:int
+        +<<property>>name:String
+        +<<property>>detail:String
+    }
+    abstract DatabaseProvider<T extends DatabaseItem>
+    {
+        -<<static>>_name:String
+        +<<static>>version:int
+        +<<static>>table:String
+        -<<static>>_database:Database?
+        +<<property>>database:Future<Database?>{get only}
+        -<<async>>_init():Future<Database>
+        +<<async>>onCreate(db:Database,version:int):Future
+        +<<async>>insert(data:T):Future<int?>
+        +<<async>>all():Future<List<T>?>
+        +<<async>>update(data:T):Future<int?>
+        +<<async>>delete(id:int):Future<int?>
+    }
+    interface IDeserializable
+    {
+        +deserialize(data:Map<String, dynamic>):IDeserializable
+    }
+    interface ISerializable
+    {
+        +serialize():Map<String, dynamic>
+    }
+}
+class CardDatabase
+{
+    -<<static>>_instance:CardDatabase
+    +<<property>>instance:CardDatabase{get only}
+    -_constructor():CardDatabase
+}
+class Deck
+{
+    -_name:String
+    -_cards:List<TalkCard>
+    +<<property>>name:String
+    +<<property>>cards:Iterable<TalkCard>
+    +draw(count:int):List<TalkCard>
+    +shuffle():void
+}
 class TalkCard
 {
     -_title:String
     -_talkDetail:TalkDetail
     -_useCount:int
-    +<<property>>title:String{get only}
     +use():void
-    +delete():void
 }
 class TalkDetail
 {
@@ -25,21 +72,41 @@ class TalkDetail
     +<<property>>how:String
     +<<property>>other:String
 }
-abstract CardHolder
+enum Time
 {
-    +cards:List
+    Today,
+    Yestaday,
+    ThisWeek,
+    ThisMonth,
+    ThisYear,
+    LastWeek,
+    LastMonth,
+    LastYear,
+    LongAgo,
 }
-class Deck
+class TimeHelper
 {
-    -_name:String
-    +<<property>>name:String
-    +draw(count:int):List<TalkCard>
-    +shuffle():void
-    +delete():void
+    +<<static>>getValue(time:Time):String
 }
 
+DatabaseItem ..|> ISerializable
+DatabaseItem ..|> IDeserializable
+TalkDetail ..|> ISerializable
+TalkDetail ..|> IDeserializable
+
+DatabaseProvider --> DatabaseItem
+DatabaseProvider --> ISerializable
+DatabaseProvider --> IDeserializable
+CardDatabase --> TalkCard
+
+CardDatabase -left-|> DatabaseProvider
+TalkCard -left-|> DatabaseItem
+TimeHelper --> Time :help
+TalkDetail --> TimeHelper : use
+
+TalkDetail *-- Time
+
 TalkCard *--> TalkDetail
-CardHolder *-- TalkCard
-Deck --|> CardHolder
+Deck *--> TalkCard
 
 @enduml

@@ -15,7 +15,6 @@ class CardMakePage extends StatefulWidget {
 
 class _CardMakePageState extends State<CardMakePage> {
   var _title = '';
-  var _summary = '';
   var _talkDetail = new TalkDetail();
 
   @override
@@ -88,7 +87,7 @@ class _CardMakePageState extends State<CardMakePage> {
               ElevatedButton(
                 child: Text('作成'),
                 onPressed: () {
-                  var card = new TalkCard(_title, _summary, _talkDetail);
+                  var card = new TalkCard(_title, _talkDetail);
                 },
               ),
             ],

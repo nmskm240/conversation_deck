@@ -1,23 +1,25 @@
-import 'package:conversation_deck/CardHolder.dart';
-
 import 'TalkCard.dart';
 
-class Deck extends CardHolder {
+class Deck {
   var _name = "";
-
-  Deck.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  List<TalkCard> _cards = [];
 
   String get name => _name;
+  Iterable<TalkCard> get cards => _cards;
 
   set name(String s) => {(s.isEmpty) ? "会話デッキ" : s};
 
+  Deck(Iterable<TalkCard> cards) {
+    _cards = cards.toList();
+  }
+
   void shuffle() {
-    cards.shuffle();
+    _cards.shuffle();
   }
 
   List<TalkCard> draw(int count) {
-    var range = cards.take(count);
-    cards.removeRange(0, count);
+    var range = _cards.take(count);
+    _cards.removeRange(0, count);
     return range.toList();
   }
 }
