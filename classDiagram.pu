@@ -50,7 +50,6 @@ class Deck
 }
 class TalkCard
 {
-    -_title:String
     -_talkDetail:TalkDetail
     -_useCount:int
     +use():void
@@ -71,6 +70,8 @@ class TalkDetail
     +<<property>>why:String
     +<<property>>how:String
     +<<property>>other:String
+    +toJson():Map<String, dynamic>
+    +fromJson(json:Map<String,dyanmic>):TalkDetail
 }
 enum Time
 {
@@ -91,8 +92,6 @@ class TimeHelper
 
 DatabaseItem ..|> ISerializable
 DatabaseItem ..|> IDeserializable
-TalkDetail ..|> ISerializable
-TalkDetail ..|> IDeserializable
 
 DatabaseProvider --> DatabaseItem
 DatabaseProvider --> ISerializable

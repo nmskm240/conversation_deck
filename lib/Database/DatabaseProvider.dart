@@ -6,8 +6,8 @@ import 'package:path/path.dart';
 
 abstract class DatabaseProvider<T extends DatabaseItem> {
   static final _name = "conversation_deck.db";
-  static final version = 1;
-  static final table = "";
+  static int version = 1;
+  static String table = "";
 
   static Database? _database;
   Future<Database?> get database async {

@@ -1,8 +1,6 @@
-import 'Database/IDeserializable.dart';
-import 'Database/ISerializable.dart';
 import 'package:conversation_deck/Time.dart';
 
-class TalkDetail implements ISerializable, IDeserializable {
+class TalkDetail {
   Time _when = Time.Today;
   String? _where;
   String? _who;
@@ -44,7 +42,7 @@ class TalkDetail implements ISerializable, IDeserializable {
     _other = other;
   }
 
-  TalkDetail.deserialize(Map<String, dynamic> json)
+  TalkDetail.fromJson(Map<String, dynamic> json)
       : _when = Time.values[json["when"]],
         _where = json["where"],
         _who = json["who"],
@@ -53,7 +51,7 @@ class TalkDetail implements ISerializable, IDeserializable {
         _how = json["how"],
         _other = json["other"];
 
-  Map<String, dynamic> serialize() => {
+  Map<String, dynamic> toJson() => {
         "when": _when.index,
         "where": _where,
         "who": _who,
