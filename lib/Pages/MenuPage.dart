@@ -1,7 +1,7 @@
-import 'package:conversation_deck/Pages/CardListPage.dart';
-import 'package:conversation_deck/Pages/CardMakePage.dart';
-import 'package:conversation_deck/Pages/ConversationPage.dart';
-import 'package:conversation_deck/Pages/DeckMakePage.dart';
+import 'CardListPage.dart';
+import 'CardMakePage.dart';
+import 'ConversationPage.dart';
+import 'DeckMakePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +9,11 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Container(
+        // padding: EdgeInsets.all(64),
+        alignment: Alignment.center,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
