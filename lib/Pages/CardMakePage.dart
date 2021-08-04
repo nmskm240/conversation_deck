@@ -1,9 +1,7 @@
-import 'dart:convert';
-
-import 'package:conversation_deck/Time.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import '../CardDatabase.dart';
+import '../Time.dart';
 import '../LabeledTextField.dart';
 import '../TalkCard.dart';
 import '../TalkDetail.dart';
@@ -44,7 +42,7 @@ class _CardMakePageState extends State<CardMakePage> {
                 value: _talkDetail.when,
                 onChanged: (Time? newValue) {
                   setState(() {
-                    _talkDetail.when = newValue??Time.Today;
+                    _talkDetail.when = newValue ?? Time.Today;
                   });
                 },
                 items: Time.values.map((Time type) {
@@ -87,7 +85,28 @@ class _CardMakePageState extends State<CardMakePage> {
               ElevatedButton(
                 child: Text('作成'),
                 onPressed: () {
-                  var card = new TalkCard(_title, _talkDetail);
+                  if (_title.isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: Text("エラー"),
+                          content: Text("タイトルが入力されていません。"),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text("OK"),
+                              onPressed: () => {
+                                Navigator.pop(context),
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    var card = new TalkCard(_title, _talkDetail);
+                    CardDatabase.instance.insert(card);
+                  }
                 },
               ),
             ],
