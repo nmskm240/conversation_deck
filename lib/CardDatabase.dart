@@ -17,4 +17,13 @@ class CardDatabase extends DatabaseProvider<TalkCard> {
         """CREATE TABLE $table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, detail TEXT, count INTEGER)
     """);
   }
+
+  Future<List<TalkCard>?> all() async {
+    var db = await database;
+    var datas = await db?.query(DatabaseProvider.table);
+    List<TalkCard> cards = [];
+    datas?.forEach(
+        (data) => {cards.add(TalkCard.deserialize(data))});
+    return cards;
+  }
 }

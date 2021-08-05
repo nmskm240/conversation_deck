@@ -1,5 +1,4 @@
 import 'DatabaseItem.dart';
-import 'IDeserializable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -26,15 +25,6 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
   Future<int?> insert(T data) async {
     var db = await database;
     return await db?.insert(table, data.serialize());
-  }
-
-  Future<List<T>?> all() async {
-    var db = await database;
-    var datas = await db?.query(table);
-    List<T> cards = [];
-    datas?.forEach(
-        (data) => {cards.add(IDeserializable.deserialize(data) as T)});
-    return cards;
   }
 
   Future<int?> update(T data) async {

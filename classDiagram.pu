@@ -9,6 +9,8 @@ package Database
         +<<property>>id:int
         +<<property>>name:String
         +<<property>>detail:String
+        +deserialize(data:Map<String, dynamic>):DatabaseItem
+        +serialize():Map<String, dyanmic>
     }
     abstract DatabaseProvider<T extends DatabaseItem>
     {
@@ -20,17 +22,8 @@ package Database
         -<<async>>_init():Future<Database>
         +<<async>>onCreate(db:Database,version:int):Future
         +<<async>>insert(data:T):Future<int?>
-        +<<async>>all():Future<List<T>?>
         +<<async>>update(data:T):Future<int?>
         +<<async>>delete(id:int):Future<int?>
-    }
-    interface IDeserializable
-    {
-        +deserialize(data:Map<String, dynamic>):IDeserializable
-    }
-    interface ISerializable
-    {
-        +serialize():Map<String, dynamic>
     }
 }
 class CardDatabase
@@ -38,6 +31,7 @@ class CardDatabase
     -<<static>>_instance:CardDatabase
     +<<property>>instance:CardDatabase{get only}
     -_constructor():CardDatabase
+    +<<async>>all():Future<List<TalkCard>?>
 }
 class Deck
 {
@@ -90,12 +84,7 @@ class TimeHelper
     +<<static>>getValue(time:Time):String
 }
 
-DatabaseItem ..|> ISerializable
-DatabaseItem ..|> IDeserializable
-
 DatabaseProvider --> DatabaseItem
-DatabaseProvider --> ISerializable
-DatabaseProvider --> IDeserializable
 CardDatabase --> TalkCard
 
 CardDatabase -left-|> DatabaseProvider

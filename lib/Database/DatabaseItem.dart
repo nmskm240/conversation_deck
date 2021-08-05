@@ -1,7 +1,4 @@
-import 'IDeserializable.dart';
-import 'ISerializable.dart';
-
-abstract class DatabaseItem implements ISerializable, IDeserializable {
+abstract class DatabaseItem {
   var _id = 0;
   var _name = "";
   var _detail = "";
@@ -13,4 +10,8 @@ abstract class DatabaseItem implements ISerializable, IDeserializable {
   set id(int i) => {_id = i};
   set name(String s) => {_name = s};
   set detail(String s) => {_detail = s};
+
+  DatabaseItem();
+  DatabaseItem.deserialize(Map<String, dynamic> obj);
+  Map<String, dynamic> serialize();
 }
