@@ -22,38 +22,36 @@ class _CardListPageState extends State<CardListPage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(64),
-        child: SingleChildScrollView(
-          child: FutureBuilder(
-              future: CardDatabase.instance.all(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<TalkCard>?> snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
-                } else {
-                  if (snapshot.hasData) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: _showCards(snapshot.data),
-                    );
-                  } else {
-                    return Text("カードなし");
-                  }
-                }
-              }),
+        alignment: Alignment.center,
+        child: FutureBuilder(
+          future: CardDatabase.instance.all(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<TalkCard>?> snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return CircularProgressIndicator();
+            } else {
+              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                var cards = snapshot.data!;
+                return GridView.count(
+                  crossAxisCount: 2,
+                  children: _showCards(cards),
+                );
+              } else {
+                return Text("カードなし");
+              }
+            }
+          },
         ),
       ),
     );
   }
 
-  List<Widget> _showCards(Iterable<TalkCard>? cards) {
+  List<Widget> _showCards(Iterable<TalkCard> cards) {
     List<Widget> widgets = [];
-    cards?.forEach((card) {
-      widgets.add(
-        Card(
-          child: Text(card.name),
-        ),
-      );
+    cards.forEach((card) {
+      widgets.add(Card(
+        child: Text(card.name),
+      ));
     });
     return widgets;
   }
