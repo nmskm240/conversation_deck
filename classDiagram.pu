@@ -14,10 +14,10 @@ package Database
     }
     abstract DatabaseProvider<T extends DatabaseItem>
     {
-        -<<static>>_name:String
-        +<<static>>version:int
-        +<<static>>table:String
-        -<<static>>_database:Database?
+        -_name:String
+        +version:int
+        +table:String
+        -_database:Database?
         +<<property>>database:Future<Database?>{get only}
         -<<async>>_init():Future<Database>
         +<<async>>restore():Future
@@ -29,7 +29,7 @@ package Database
 }
 class CardDatabase
 {
-    -<<static>>_instance:CardDatabase
+    -_instance:CardDatabase
     +<<property>>instance:CardDatabase{get only}
     -_constructor():CardDatabase
     +<<async>>all():Future<List<TalkCard>?>

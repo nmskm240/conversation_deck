@@ -6,13 +6,13 @@ class CardDatabase extends DatabaseProvider<TalkCard> {
   static final _instance = CardDatabase._constructor();
   static CardDatabase get instance => _instance;
   CardDatabase._constructor() {
-    DatabaseProvider.version = 1;
-    DatabaseProvider.table = "cards";
+    version = 1;
+    table = "cards";
   }
 
   @override
   Future onCreate(Database db, int version) async {
-    var table = DatabaseProvider.table;
+    var table = this.table;
     await db.execute("""CREATE TABLE $table (
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           name TEXT, 
@@ -25,7 +25,7 @@ class CardDatabase extends DatabaseProvider<TalkCard> {
 
   Future<List<TalkCard>?> all() async {
     var db = await database;
-    var datas = await db?.query(DatabaseProvider.table);
+    var datas = await db?.query(this.table);
     List<TalkCard> cards = [];
     datas?.forEach((data) => {cards.add(TalkCard.deserialize(data))});
     return cards;

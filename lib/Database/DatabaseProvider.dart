@@ -1,16 +1,14 @@
-import 'package:flutter/material.dart';
-
 import 'DatabaseItem.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 abstract class DatabaseProvider<T extends DatabaseItem> {
-  static final _name = "conversation_deck.db";
-  static int version = 1;
-  static String table = "";
+  final _name = "conversation_deck.db";
+  int version = 1;
+  String table = "";
 
-  static Database? _database;
+  Database? _database;
   Future<Database?> get database async {
     if (_database == null) _database = await _init();
     return _database;
