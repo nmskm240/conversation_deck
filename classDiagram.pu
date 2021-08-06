@@ -20,6 +20,7 @@ package Database
         -<<static>>_database:Database?
         +<<property>>database:Future<Database?>{get only}
         -<<async>>_init():Future<Database>
+        +<<async>>restore():Future
         +<<async>>onCreate(db:Database,version:int):Future
         +<<async>>insert(data:T):Future<int?>
         +<<async>>update(data:T):Future<int?>

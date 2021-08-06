@@ -13,17 +13,21 @@ class CardDatabase extends DatabaseProvider<TalkCard> {
   @override
   Future onCreate(Database db, int version) async {
     var table = DatabaseProvider.table;
-    await db.execute(
-        """CREATE TABLE $table (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, detail TEXT, count INTEGER)
-    """);
+    await db.execute("""CREATE TABLE $table (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, 
+          name TEXT, 
+          detail TEXT, 
+          count INTEGER, 
+          include TEXT, 
+          time TEXT
+        )""");
   }
 
   Future<List<TalkCard>?> all() async {
     var db = await database;
     var datas = await db?.query(DatabaseProvider.table);
     List<TalkCard> cards = [];
-    datas?.forEach(
-        (data) => {cards.add(TalkCard.deserialize(data))});
+    datas?.forEach((data) => {cards.add(TalkCard.deserialize(data))});
     return cards;
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'DatabaseItem.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,6 +23,14 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
   }
 
   Future onCreate(Database db, int version) async {}
+
+  Future restore() async {
+    var db = await database;
+    if (db != null) {
+      await deleteDatabase(db.path);
+      _database = await _init();
+    }
+  }
 
   Future<int?> insert(T data) async {
     var db = await database;
