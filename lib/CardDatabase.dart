@@ -4,11 +4,12 @@ import 'package:sqflite/sqflite.dart';
 
 class CardDatabase extends DatabaseProvider<TalkCard> {
   static final _instance = CardDatabase._constructor();
-  static CardDatabase get instance => _instance;
   CardDatabase._constructor() {
     version = 1;
     table = "cards";
   }
+
+  factory CardDatabase() => _instance;
 
   @override
   Future onCreate(Database db, int version) async {

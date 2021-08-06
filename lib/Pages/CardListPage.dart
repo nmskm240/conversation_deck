@@ -35,7 +35,7 @@ class _CardListPageState extends State<CardListPage> {
       body: Container(
         alignment: Alignment.center,
         child: FutureBuilder(
-          future: CardDatabase.instance.all(),
+          future: CardDatabase().all(),
           builder:
               (BuildContext context, AsyncSnapshot<List<TalkCard>?> snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {

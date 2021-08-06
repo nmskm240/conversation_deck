@@ -105,7 +105,7 @@ class _CardMakePageState extends State<CardMakePage> {
                     );
                   } else {
                     var card = new TalkCard(_title, _talkDetail);
-                    CardDatabase.instance.insert(card);
+                    CardDatabase().insert(card);
                   }
                 },
               ),

@@ -30,7 +30,7 @@ class MenuPage extends StatelessWidget {
                       TextButton(
                         child: Text("YES"),
                         onPressed: () {
-                          CardDatabase.instance.restore();
+                          CardDatabase().restore();
                           Navigator.pop(context);
                           showDialog(
                             context: context,
