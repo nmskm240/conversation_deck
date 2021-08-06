@@ -1,4 +1,5 @@
 import 'package:conversation_deck/CardDatabase.dart';
+import 'package:conversation_deck/Pages/CardMakePage.dart';
 import 'package:conversation_deck/TalkCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,16 @@ class _CardListPageState extends State<CardListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("カード一覧"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return CardMakePage();
+              }));
+            },
+          ),
+        ],
         leading: IconButton(
           icon: Icon(Icons.arrow_left),
           onPressed: () {

@@ -1,7 +1,8 @@
+import 'package:conversation_deck/CardDatabase.dart';
+
 import 'CardListPage.dart';
-import 'CardMakePage.dart';
 import 'ConversationPage.dart';
-import 'DeckMakePage.dart';
+import 'DeckListPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +10,56 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.restore),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    content: Text("データベースを初期化しますか？"),
+                    actions: <TextButton>[
+                      TextButton(
+                        child: Text("NO"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      TextButton(
+                        child: Text("YES"),
+                        onPressed: () {
+                          CardDatabase.instance.restore();
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                content: Text("データベースを初期化しました。"),
+                                actions: <TextButton>[
+                                  TextButton(
+                                    child: Text("OK"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          )
+        ],
+      ),
       body: Container(
-        // padding: EdgeInsets.all(64),
+        padding: EdgeInsets.all(64),
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -28,19 +77,10 @@ class MenuPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return new CardMakePage();
+                  return new DeckListPage();
                 }));
               },
-              child: Text('会話カード作成'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return new DeckMakePage();
-                }));
-              },
-              child: Text('会話デッキ作成'),
+              child: Text('会話デッキ一覧'),
             ),
             ElevatedButton(
               onPressed: () {

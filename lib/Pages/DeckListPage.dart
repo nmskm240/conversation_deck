@@ -1,19 +1,16 @@
-import 'package:conversation_deck/Pages/DeckListPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DeckMakePage extends StatelessWidget {
+class DeckListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("デッキ作成"),
+        title: Text("デッキ一覧"),
         leading: IconButton(
           icon: Icon(Icons.arrow_left),
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return DeckListPage();
-            }));
+            Navigator.pop(context);
           },
         ),
         actions: <IconButton>[
@@ -22,6 +19,13 @@ class DeckMakePage extends StatelessWidget {
             onPressed: () {},
           )
         ],
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: GridView.count(
+          crossAxisCount: 2,
+          children: <Widget>[],
+        ),
       ),
     );
   }
