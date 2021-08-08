@@ -1,36 +1,9 @@
-enum Time {
-  Today,
-  Yestaday,
-  ThisWeek,
-  ThisMonth,
-  ThisYear,
-  LastWeek,
-  LastMonth,
-  LastYear,
-  LongAgo,
-}
+import 'Database/DatabaseItem.dart';
 
-class TimeHelper {
-  static String getValue(Time time) {
-    switch (time) {
-      case Time.Today:
-        return '今日';
-      case Time.Yestaday:
-        return '昨日';
-      case Time.ThisWeek:
-        return '今週';
-      case Time.ThisMonth:
-        return '今月';
-      case Time.ThisYear:
-        return '今年';
-      case Time.LastWeek:
-        return '先週';
-      case Time.LastMonth:
-        return '先月';
-      case Time.LastYear:
-        return '去年';
-      case Time.LongAgo:
-        return 'かなり前';
-    }
-  }
+class Time extends DatabaseItem {
+  Time({int id = 0, required String name, String detail = ""})
+      : super(id: id, name: name, detail: detail);
+  Time.deserialize(Map<String, dynamic> json) : super.deserialize(json);
+  @override
+  Map<String, dynamic> serialize() => super.serialize();
 }

@@ -6,9 +6,9 @@ package Database
         -_id:int
         -_name:String
         -_detail:String
-        +<<property>>id:int
-        +<<property>>name:String
-        +<<property>>detail:String
+        +<<property>>id:int{get only}
+        +<<property>>name:String{get only}
+        +<<property>>detail:String{get only}
         +deserialize(data:Map<String, dynamic>):DatabaseItem
         +serialize():Map<String, dyanmic>
     }
@@ -20,6 +20,7 @@ package Database
         -_database:Database?
         +<<property>>database:Future<Database?>{get only}
         -<<async>>_init():Future<Database>
+        +<<async>>all():Future<List<T>?>
         +<<async>>restore():Future
         +<<async>>onCreate(db:Database,version:int):Future
         +<<async>>insert(data:T):Future<int?>
@@ -27,75 +28,65 @@ package Database
         +<<async>>delete(id:int):Future<int?>
     }
 }
-class CardDatabase
-{
-    -_instance:CardDatabase
-    +<<property>>instance:CardDatabase{get only}
-    -_constructor():CardDatabase
-    +<<async>>all():Future<List<TalkCard>?>
-}
 class Deck
 {
     -_name:String
-    -_cards:List<TalkCard>
+    -_topics:List<Topic>
     +<<property>>name:String
-    +<<property>>cards:Iterable<TalkCard>
-    +draw(count:int):List<TalkCard>
+    +<<property>>topics:Iterable<Topic>
+    +draw(count:int):List<Topic>
     +shuffle():void
 }
-class TalkCard
+class Topic
 {
-    -_talkDetail:TalkDetail
     -_useCount:int
+    -_info:TopicInfo
+    -_affiliations:List<String>
+    -_timestamp:DateTime
+    +<<property>>useCount:int{get only}
+    +<<property>>info:TopicInfo{get only}
+    +<<property>>affiliations:Iterable<String>{get only}
+    +<<property>>timestamp:DateTime{get only}
     +use():void
 }
-class TalkDetail
+class TopicInfo
 {
-    -_when:DateTime
-    -_where:String
-    -_who:String
-    -_what:String
-    -_why:String
-    -_how:String
-    -_other:String
-    +<<property>>when:DateTime
-    +<<property>>where:String
-    +<<property>>who:String
-    +<<property>>what:String
-    +<<property>>why:String
-    +<<property>>how:String
-    +<<property>>other:String
-    +toJson():Map<String, dynamic>
-    +fromJson(json:Map<String,dyanmic>):TalkDetail
+    +when:Time
+    +where:String
+    +who:String
+    +what:String
+    +why:String
+    +how:String
+    +whatUp:String
+    +specifically:String
+    +fromJson(json:Map<String, dynamic>):TopicInfo
+    +toJson():Map<String, dyanmic>
 }
-enum Time
+class TopicDatabase
 {
-    Today,
-    Yestaday,
-    ThisWeek,
-    ThisMonth,
-    ThisYear,
-    LastWeek,
-    LastMonth,
-    LastYear,
-    LongAgo,
+    -_instance:TopicDatabase
+    -_constructor():TopicDatabase
 }
-class TimeHelper
+class Time
+class TimeDatabase
 {
-    +<<static>>getValue(time:Time):String
+    -_instance:TimeDatabase
+    -_constructor():TimeDatabase
 }
 
 DatabaseProvider --> DatabaseItem
-CardDatabase --> TalkCard
+TopicDatabase --> Topic
+TimeDatabase --> Time
+TopicInfo --> TimeDatabase : use
 
-CardDatabase -left-|> DatabaseProvider
-TalkCard -left-|> DatabaseItem
-TimeHelper --> Time :help
-TalkDetail --> TimeHelper : use
+TopicDatabase --|> DatabaseProvider
+TimeDatabase --|> DatabaseProvider
+Topic --|> DatabaseItem
+Time --|> DatabaseItem
 
-TalkDetail *-- Time
+Topic *--> TopicInfo
+Deck *--> Topic
 
-TalkCard *--> TalkDetail
-Deck *--> TalkCard
+TopicInfo *-- Time
 
 @enduml
