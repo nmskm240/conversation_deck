@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.conversation_deck">
    <application
-        android:label="conversation_deck"
+        android:label="会話デッキ"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
