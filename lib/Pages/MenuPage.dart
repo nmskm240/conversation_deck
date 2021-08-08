@@ -1,6 +1,6 @@
-import 'package:conversation_deck/CardDatabase.dart';
-
-import 'CardListPage.dart';
+import '../TimeDatabase.dart';
+import '../TopicDatabase.dart';
+import 'TopicListPage.dart';
 import 'ConversationPage.dart';
 import 'DeckListPage.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +30,8 @@ class MenuPage extends StatelessWidget {
                       TextButton(
                         child: Text("YES"),
                         onPressed: () {
-                          CardDatabase().restore();
+                          TopicDatabase().restore();
+                          TimeDatabase().restore();
                           Navigator.pop(context);
                           showDialog(
                             context: context,
@@ -86,7 +87,7 @@ class MenuPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return new CardListPage();
+                  return new TopicListPage();
                 }));
               },
               child: Text('会話カード一覧'),

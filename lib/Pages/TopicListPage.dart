@@ -1,15 +1,15 @@
-import 'package:conversation_deck/CardDatabase.dart';
-import 'package:conversation_deck/Pages/CardMakePage.dart';
-import 'package:conversation_deck/TalkCard.dart';
+import 'package:conversation_deck/TopicDatabase.dart';
+import 'package:conversation_deck/Pages/TopicMakePage.dart';
+import 'package:conversation_deck/Topic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CardListPage extends StatefulWidget {
+class TopicListPage extends StatefulWidget {
   @override
-  _CardListPageState createState() => _CardListPageState();
+  _TopicListPageState createState() => _TopicListPageState();
 }
 
-class _CardListPageState extends State<CardListPage> {
+class _TopicListPageState extends State<TopicListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class _CardListPageState extends State<CardListPage> {
             icon: Icon(Icons.add),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return CardMakePage();
+                return TopicMakePage();
               }));
             },
           ),
@@ -35,9 +35,9 @@ class _CardListPageState extends State<CardListPage> {
       body: Container(
         alignment: Alignment.center,
         child: FutureBuilder(
-          future: CardDatabase().all(),
+          future: TopicDatabase().all(),
           builder:
-              (BuildContext context, AsyncSnapshot<List<TalkCard>?> snapshot) {
+              (BuildContext context, AsyncSnapshot<List<Topic>?> snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return CircularProgressIndicator();
             } else {
@@ -57,7 +57,7 @@ class _CardListPageState extends State<CardListPage> {
     );
   }
 
-  List<Widget> _showCards(Iterable<TalkCard> cards) {
+  List<Widget> _showCards(Iterable<Topic> cards) {
     List<Widget> widgets = [];
     cards.forEach((card) {
       widgets.add(Card(
