@@ -1,25 +1,25 @@
-import 'TalkCard.dart';
+import 'Topic.dart';
 
 class Deck {
   var _name = "";
-  List<TalkCard> _cards = [];
+  List<Topic> _topics = [];
 
   String get name => _name;
-  Iterable<TalkCard> get cards => _cards;
+  Iterable<Topic> get cards => _topics;
 
   set name(String s) => {(s.isEmpty) ? "会話デッキ" : s};
 
-  Deck(Iterable<TalkCard> cards) {
-    _cards = cards.toList();
+  Deck(Iterable<Topic> topics) {
+    _topics = topics.toList();
   }
 
   void shuffle() {
-    _cards.shuffle();
+    _topics.shuffle();
   }
 
-  List<TalkCard> draw(int count) {
-    var range = _cards.take(count);
-    _cards.removeRange(0, count);
+  List<Topic> draw(int count) {
+    var range = _topics.take(count);
+    _topics.removeRange(0, count);
     return range.toList();
   }
 }
