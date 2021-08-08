@@ -1,11 +1,12 @@
-import 'package:conversation_deck/TimeDatabase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Time.dart';
-import '../TopicDatabase.dart';
-import '../LabeledTextField.dart';
-import '../Topic.dart';
-import '../TopicInfo.dart';
+import 'TimeDatabase.dart';
+import 'Time.dart';
+import 'TopicDatabase.dart';
+import 'Topic.dart';
+import 'TopicInfo.dart';
+import 'LabeledTextField.dart';
+import 'LabeledDropdown.dart';
 
 class TopicForm extends StatefulWidget {
   @override
@@ -42,9 +43,10 @@ class _TopicFormState extends State<TopicForm> {
                   LabeledTextField(
                     label: 'タイトル',
                     hint: '内容を一言で表すと…',
-                    callback: (text) => {_name = text},
+                    onChanged: (text) => {_name = text},
                   ),
-                  DropdownButton<Time>(
+                  LabeledDropdown<Time>(
+                    label: "いつ",
                     value: _info.when,
                     onChanged: (Time? newValue) {
                       setState(() {
@@ -61,37 +63,37 @@ class _TopicFormState extends State<TopicForm> {
                   LabeledTextField(
                     label: 'どこで',
                     hint: '',
-                    callback: (text) => {_info.where = text},
+                    onChanged: (text) => {_info.where = text},
                   ),
                   LabeledTextField(
                     label: 'だれが',
                     hint: '',
-                    callback: (text) => {_info.who = text},
+                    onChanged: (text) => {_info.who = text},
                   ),
                   LabeledTextField(
                     label: 'なにを',
                     hint: '',
-                    callback: (text) => {_info.what = text},
+                    onChanged: (text) => {_info.what = text},
                   ),
                   LabeledTextField(
                     label: 'なぜ',
                     hint: '',
-                    callback: (text) => {_info.why = text},
+                    onChanged: (text) => {_info.why = text},
                   ),
                   LabeledTextField(
                     label: 'どのように',
                     hint: '',
-                    callback: (text) => {_info.how = text},
+                    onChanged: (text) => {_info.how = text},
                   ),
                   LabeledTextField(
                     label: 'どうした',
                     hint: '',
-                    callback: (text) => {_info.whatUp = text},
+                    onChanged: (text) => {_info.whatUp = text},
                   ),
                   LabeledTextField(
                     label: '詳細',
                     hint: '具体的には…？',
-                    callback: (text) => {_info.specifically = text},
+                    onChanged: (text) => {_info.specifically = text},
                   ),
                   ElevatedButton(
                     child: Text('作成'),

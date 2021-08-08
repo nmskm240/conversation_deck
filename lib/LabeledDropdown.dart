@@ -1,29 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LabeledTextField extends StatelessWidget {
+class LabeledDropdown<T> extends StatelessWidget {
   final String label;
-  final String hint;
+  final T value;
   final Function onChanged;
-  final TextInputType type;
+  final List<DropdownMenuItem<T>>? items;
 
-  const LabeledTextField({
+  const LabeledDropdown({
     Key? key,
     required this.label,
-    required this.hint,
+    required this.value,
     required this.onChanged,
-    this.type = TextInputType.text,
+    required this.items,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      keyboardType: type,
-      maxLines: null,
+    return DropdownButtonFormField(
       decoration: InputDecoration(
         labelText: label,
-        hintText: hint,
-        hintStyle: TextStyle(color: Colors.black),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -34,8 +30,10 @@ class LabeledTextField extends StatelessWidget {
           borderSide: BorderSide(color: Colors.grey),
         ),
       ),
-      onChanged: (String text) {
-        onChanged(text);
+      value: value,
+      items: items,
+      onChanged: (T? newValue) {
+        onChanged(newValue);
       },
     );
   }
