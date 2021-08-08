@@ -1,17 +1,24 @@
 abstract class DatabaseItem {
-  var _id = 0;
-  var _name = "";
-  var _detail = "";
+  late int _id;
+  late String _name;
+  late String _detail;
 
   int get id => _id;
   String get name => _name;
   String get detail => _detail;
 
-  set id(int i) => {_id = i};
-  set name(String s) => {_name = s};
-  set detail(String s) => {_detail = s};
-
-  DatabaseItem();
-  DatabaseItem.deserialize(Map<String, dynamic> obj);
-  Map<String, dynamic> serialize();
+  DatabaseItem({int id = 0, required String name, String detail = ""}) {
+    _id = id;
+    _name = name;
+    _detail = detail;
+  }
+  DatabaseItem.deserialize(Map<String, dynamic> obj) {
+    _id = obj["id"];
+    _name = obj["name"];
+    _detail = obj["detail"];
+  }
+  Map<String, dynamic> serialize() => {
+        "name": _name,
+        "detail": _detail,
+      };
 }

@@ -4,9 +4,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 abstract class DatabaseProvider<T extends DatabaseItem> {
-  final _name = "conversation_deck.db";
-  int version = 1;
-  String table = "";
+  late final String table;
+  late final int version;
 
   Database? _database;
   Future<Database?> get database async {
@@ -16,11 +15,13 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
 
   Future<Database> _init() async {
     var dir = await getApplicationDocumentsDirectory();
-    final path = join(dir.path, _name);
+    final path = join(dir.path, join(table, ".db"));
     return await openDatabase(path, version: version, onCreate: onCreate);
   }
 
   Future onCreate(Database db, int version) async {}
+
+  Future<List<T>?> all() async {}
 
   Future restore() async {
     var db = await database;
