@@ -2,8 +2,8 @@ import 'DatabaseItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DatabaseListTile<T extends DatabaseItem> extends StatelessWidget {
-  final T item;
+class DatabaseListTile extends StatelessWidget {
+  final DatabaseItem item;
 
   const DatabaseListTile({
     Key? key,
