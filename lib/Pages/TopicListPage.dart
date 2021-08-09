@@ -1,15 +1,10 @@
+import 'package:conversation_deck/Database/DatabaseListView.dart';
 import 'package:conversation_deck/TopicDatabase.dart';
 import 'package:conversation_deck/Pages/TopicMakePage.dart';
-import 'package:conversation_deck/Topic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TopicListPage extends StatefulWidget {
-  @override
-  _TopicListPageState createState() => _TopicListPageState();
-}
-
-class _TopicListPageState extends State<TopicListPage> {
+class TopicListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,36 +29,10 @@ class _TopicListPageState extends State<TopicListPage> {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: FutureBuilder(
-          future: TopicDatabase().all(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Topic>?> snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return CircularProgressIndicator();
-            } else {
-              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                var cards = snapshot.data!;
-                return GridView.count(
-                  crossAxisCount: 2,
-                  children: _showCards(cards),
-                );
-              } else {
-                return Text("カードなし");
-              }
-            }
-          },
+        child: DatabaseListView(
+          database: TopicDatabase(),
         ),
       ),
     );
-  }
-
-  List<Widget> _showCards(Iterable<Topic> cards) {
-    List<Widget> widgets = [];
-    cards.forEach((card) {
-      widgets.add(Card(
-        child: Text(card.name),
-      ));
-    });
-    return widgets;
   }
 }
