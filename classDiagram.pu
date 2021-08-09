@@ -26,6 +26,7 @@ package Database
         +<<async>>insert(data:T):Future<int?>
         +<<async>>update(data:T):Future<int?>
         +<<async>>deleteAt(id:int):Future<int?>
+        +<<async>>getAt(id:int):Futur<int?>
     }
 }
 class Deck

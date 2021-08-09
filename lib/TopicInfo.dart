@@ -14,8 +14,9 @@ class TopicInfo {
   TopicInfo();
 
   TopicInfo.fromJson(Map<String, dynamic> json) {
-    TimeDatabase().all().then(
-        (times) => when = Time.deserialize(times!.elementAt(json['when'])));
+    TimeDatabase()
+        .getAt(json['when'])
+        .then((value) => when = Time.deserialize(value!));
     where = json['where'];
     who = json['who'];
     what = json['what'];

@@ -49,4 +49,10 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
     var db = await database;
     return await db?.delete(table, where: 'id = ?', whereArgs: [id]);
   }
+
+  Future<Map<String, dynamic>?> getAt(int id) async {
+    var db = await database;
+    var match = await db?.query(table, where: "id = ?", whereArgs: [id]);
+    return match?.first;
+  }
 }
