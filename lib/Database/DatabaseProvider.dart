@@ -42,7 +42,7 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
         where: 'id = ?', whereArgs: [data.id]);
   }
 
-  Future<int?> delete(int id) async {
+  Future<int?> deleteAt(int id) async {
     var db = await database;
     return await db?.delete(table, where: 'id = ?', whereArgs: [id]);
   }

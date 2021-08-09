@@ -25,7 +25,7 @@ package Database
         +<<async>>onCreate(db:Database,version:int):Future
         +<<async>>insert(data:T):Future<int?>
         +<<async>>update(data:T):Future<int?>
-        +<<async>>delete(id:int):Future<int?>
+        +<<async>>deleteAt(id:int):Future<int?>
     }
 }
 class Deck
