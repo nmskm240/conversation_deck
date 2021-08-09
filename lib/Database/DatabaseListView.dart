@@ -17,7 +17,7 @@ class DatabaseListView<T extends DatabaseProvider> extends StatelessWidget {
     return FutureBuilder(
       future: database.all(),
       builder:
-          (BuildContext context, AsyncSnapshot<List<DatabaseItem>?> snapshot) {
+          (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         }
@@ -45,7 +45,7 @@ class DatabaseListView<T extends DatabaseProvider> extends StatelessWidget {
         return ListView.builder(
           itemCount: datas.length,
           itemBuilder: (BuildContext context, int index) {
-            return DatabaseListTile(item: datas[index]);
+            return DatabaseListTile(data: datas[index]);
           },
         );
       },

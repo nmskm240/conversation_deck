@@ -23,13 +23,4 @@ class TopicDatabase extends DatabaseProvider<Topic> {
           time TEXT
         )""");
   }
-
-  @override
-  Future<List<Topic>?> all() async {
-    var db = await database;
-    var datas = await db?.query(table);
-    List<Topic> topics = [];
-    datas?.forEach((data) => {topics.add(Topic.deserialize(data))});
-    return topics;
-  }
 }

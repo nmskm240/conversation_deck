@@ -1,20 +1,19 @@
-import 'DatabaseItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseListTile extends StatelessWidget {
-  final DatabaseItem item;
+  final Map<String, dynamic> data;
 
   const DatabaseListTile({
     Key? key,
-    required this.item,
+    required this.data,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(item.name),
-      subtitle: Text(item.detail),
+      title: Text(data["name"]),
+      subtitle: Text(data["detail"]),
     );
   }
 }

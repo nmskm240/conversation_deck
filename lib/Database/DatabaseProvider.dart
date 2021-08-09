@@ -21,7 +21,10 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
 
   Future onCreate(Database db, int version) async {}
 
-  Future<List<T>?> all() async {}
+  Future<List<Map<String, dynamic>>?> all() async {
+    var db = await database;
+    return await db?.query(table);
+  }
 
   Future restore() async {
     var db = await database;

@@ -28,13 +28,4 @@ class TimeDatabase extends DatabaseProvider<Time> {
     await db.insert(table, new Time(id: 5, name: "先月").serialize());
     await db.insert(table, new Time(id: 6, name: "今年").serialize());
   }
-
-  @override
-  Future<List<Time>?> all() async {
-    var db = await database;
-    var datas = await db?.query(table);
-    List<Time> times = [];
-    datas?.forEach((data) => {times.add(Time.deserialize(data))});
-    return times;
-  }
 }
