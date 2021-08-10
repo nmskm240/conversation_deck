@@ -1,3 +1,5 @@
+import 'package:conversation_deck/DeckDatabase.dart';
+
 import '../TimeDatabase.dart';
 import '../TopicDatabase.dart';
 import 'TopicListPage.dart';
@@ -30,6 +32,7 @@ class MenuPage extends StatelessWidget {
                       TextButton(
                         child: Text("YES"),
                         onPressed: () {
+                          DeckDatabase().restore();
                           TopicDatabase().restore();
                           TimeDatabase().restore();
                           Navigator.pop(context);

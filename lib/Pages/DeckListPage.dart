@@ -1,5 +1,7 @@
+import 'package:conversation_deck/Database/DatabaseListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../DeckDatabase.dart';
 
 class DeckListPage extends StatelessWidget {
   @override
@@ -22,9 +24,8 @@ class DeckListPage extends StatelessWidget {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: <Widget>[],
+        child: DatabaseListView(
+          database: DeckDatabase(),
         ),
       ),
     );

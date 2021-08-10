@@ -1,16 +1,30 @@
+import 'Database/DatabaseItem.dart';
 import 'Topic.dart';
 
-class Deck {
-  var _name = "";
+class Deck extends DatabaseItem {
   List<Topic> _topics = [];
+  static String separator = ",";
 
-  String get name => _name;
   Iterable<Topic> get cards => _topics;
 
-  set name(String s) => {(s.isEmpty) ? "会話デッキ" : s};
-
-  Deck(Iterable<Topic> topics) {
+  Deck(
+      {int id = 0,
+      required String name,
+      String detail = "",
+      required Iterable<Topic> topics})
+      : super(name: name, detail: detail) {
     _topics = topics.toList();
+  }
+
+  Deck.deserialize(Map<String, dynamic> obj) : super.deserialize(obj) {
+    _topics = obj["topics"];
+  }
+
+  @override
+  Map<String, dynamic> serialize() {
+    var map = super.serialize();
+    map.addAll({"topics": _topics.map((topic) => topic.id).join(separator)});
+    return map;
   }
 
   void shuffle() {
