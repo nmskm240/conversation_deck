@@ -60,8 +60,11 @@ class TopicInfo
     +how:String
     +whatUp:String
     +specifically:String
-    +fromJson(json:Map<String, dynamic>):TopicInfo
-    +toJson():Map<String, dyanmic>
+}
+class TopicInfoDatabase
+{
+    -_instance:TopicInfoDatabase
+    -_constructor():TopicInfoDatabase
 }
 class TopicDatabase
 {
@@ -77,12 +80,14 @@ class TimeDatabase
 
 DatabaseProvider --> DatabaseItem
 TopicDatabase --> Topic
+TopicInfoDatabase --> TopicInfo
 TimeDatabase --> Time
-TopicInfo --> TimeDatabase : use
 
 TopicDatabase --|> DatabaseProvider
+TopicInfoDatabase --|> DatabaseProvider
 TimeDatabase --|> DatabaseProvider
 Topic --|> DatabaseItem
+TopicInfo --|> DatabaseItem
 Time --|> DatabaseItem
 
 Topic *--> TopicInfo

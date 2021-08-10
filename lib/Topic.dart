@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'Database/DatabaseItem.dart';
 import 'TopicInfo.dart';
 
@@ -14,7 +12,8 @@ class Topic extends DatabaseItem {
   Iterable<String> get affiliations => _affiliations;
   DateTime get timestamp => _timestamp;
 
-  Topic({required String name, String detail = "", required TopicInfo info}) : super(name: name) {
+  Topic({required String name, String detail = "", required TopicInfo info})
+      : super(name: name) {
     _info = info;
     _affiliations.add(info.when.name);
   }
@@ -25,7 +24,7 @@ class Topic extends DatabaseItem {
 
   Topic.deserialize(Map<String, dynamic> json) : super.deserialize(json) {
     _useCount = json["count"];
-    _info = TopicInfo.fromJson(jsonDecode(json["info"]));
+    _info = json["info"];
     _affiliations = (json["affiliations"] as String).split(",");
     _timestamp = DateTime.tryParse(json["time"]) ?? DateTime.now();
   }
@@ -35,7 +34,6 @@ class Topic extends DatabaseItem {
     var map = super.serialize();
     map.addAll({
       "count": _useCount,
-      "info": jsonEncode(_info),
       "affiliations": _affiliations.join(","),
       "time": _timestamp.toString()
     });

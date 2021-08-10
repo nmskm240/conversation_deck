@@ -1,7 +1,7 @@
+import 'Database/DatabaseItem.dart';
 import 'Time.dart';
-import 'TimeDatabase.dart';
 
-class TopicInfo {
+class TopicInfo extends DatabaseItem {
   late Time when;
   var where = "";
   var who = "";
@@ -13,11 +13,9 @@ class TopicInfo {
 
   TopicInfo();
 
-  TopicInfo.fromJson(Map<String, dynamic> json) {
-    TimeDatabase()
-        .getAt(json['when'])
-        .then((value) => when = Time.deserialize(value!));
-    where = json['where'];
+  TopicInfo.deserialize(Map<String, dynamic> json) : super.deserialize(json) {
+    when = json["_when"];
+    where = json['_where'];
     who = json['who'];
     what = json['what'];
     why = json['why'];
@@ -26,14 +24,19 @@ class TopicInfo {
     specifically = json['specifically'];
   }
 
-  Map<String, dynamic> toJson() => {
-        'when': when.id,
-        'where': where,
-        'who': who,
-        'what': what,
-        'why': why,
-        'how': how,
-        'whatUp': whatUp,
-        'specifically': specifically,
-      };
+  @override
+  Map<String, dynamic> serialize() {
+    var map = super.serialize();
+    map.addAll({
+      '_when': when.id,
+      '_where': where,
+      'who': who,
+      'what': what,
+      'why': why,
+      'how': how,
+      'whatUp': whatUp,
+      'specifically': specifically,
+    });
+    return map;
+  }
 }

@@ -7,7 +7,7 @@ abstract class DatabaseItem {
   String get name => _name;
   String get detail => _detail;
 
-  DatabaseItem({int id = 0, required String name, String detail = ""}) {
+  DatabaseItem({int id = 0, String name = "", String detail = ""}) {
     _id = id;
     _name = name;
     _detail = detail;
