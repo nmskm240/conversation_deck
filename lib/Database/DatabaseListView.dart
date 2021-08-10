@@ -6,19 +6,21 @@ import 'package:flutter/material.dart';
 class DatabaseListView<T extends DatabaseProvider> extends StatelessWidget {
   final T database;
 
-  const DatabaseListView({
-    Key? key,
-    required this.database
-  }) : super(key: key);
+  const DatabaseListView({Key? key, required this.database}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: database.all(),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
+        }
+        if (!snapshot.hasData ||
+            snapshot.data == null ||
+            snapshot.data!.isEmpty) {
+          return Text("データなし");
         }
         if (snapshot.hasError) {
           showDialog(

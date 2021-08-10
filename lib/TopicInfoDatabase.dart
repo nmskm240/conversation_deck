@@ -34,11 +34,17 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
   @override
   Future<List<Map<String, dynamic>>?> all() async {
     var datas = await super.all();
-    var infos = datas!.map((data) {
+    if (datas == null || datas.isEmpty) {
+      return null;
+    }
+    var infos = datas.map((data) {
       return Map.of(data);
     }).toList();
     infos.forEach((info) async {
-      var time = await TimeDatabase().getAt(info["_when"]);
+      if (info.isEmpty || !info.containsKey("_when")) {
+        return null;
+      }
+      var time = await TimeDatabase().getAt(int.tryParse(info["_when"]) ?? 0);
       info["_when"] = Time.deserialize(time!);
     });
     return infos;
@@ -47,8 +53,11 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
   @override
   Future<Map<String, dynamic>?> getAt(int id) async {
     var data = await super.getAt(id);
-    var info = Map.of(data!);
-    var time = await TimeDatabase().getAt(info["_when"]);
+    if (data == null || data.isEmpty) {
+      return null;
+    }
+    var info = Map.of(data);
+    var time = await TimeDatabase().getAt(int.tryParse(info["_when"]) ?? 0);
     info["_when"] = Time.deserialize(time!);
     return info;
   }
