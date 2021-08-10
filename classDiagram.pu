@@ -31,22 +31,23 @@ package Database
 }
 class Deck
 {
-    -_name:String
     -_topics:List<Topic>
-    +<<property>>name:String
     +<<property>>topics:Iterable<Topic>
     +draw(count:int):List<Topic>
     +shuffle():void
+}
+class DeckDatabase
+{
+    -_instance:DeckDatabase
+    -_constructor():DeckDatabase
 }
 class Topic
 {
     -_useCount:int
     -_info:TopicInfo
-    -_affiliations:List<String>
     -_timestamp:DateTime
     +<<property>>useCount:int{get only}
     +<<property>>info:TopicInfo{get only}
-    +<<property>>affiliations:Iterable<String>{get only}
     +<<property>>timestamp:DateTime{get only}
     +use():void
 }
@@ -79,20 +80,23 @@ class TimeDatabase
 }
 
 DatabaseProvider --> DatabaseItem
+DeckDatabase --> Deck
 TopicDatabase --> Topic
 TopicInfoDatabase --> TopicInfo
 TimeDatabase --> Time
 
+DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
 TopicInfoDatabase --|> DatabaseProvider
 TimeDatabase --|> DatabaseProvider
+Deck --|> DatabaseItem
 Topic --|> DatabaseItem
 TopicInfo --|> DatabaseItem
 Time --|> DatabaseItem
 
-Topic *--> TopicInfo
-Deck *--> Topic
+Topic "1" *--> "1" TopicInfo
+Deck "1" *--> "many" Topic
 
-TopicInfo *-- Time
+TopicInfo "1" *-- "1" Time
 
 @enduml

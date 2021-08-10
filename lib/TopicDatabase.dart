@@ -1,6 +1,5 @@
-import 'package:conversation_deck/TopicInfo.dart';
-import 'package:conversation_deck/TopicInfoDatabase.dart';
-
+import 'TopicInfo.dart';
+import 'TopicInfoDatabase.dart';
 import 'Topic.dart';
 import 'Database/DatabaseProvider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,7 +20,6 @@ class TopicDatabase extends DatabaseProvider<Topic> {
           name TEXT, 
           detail TEXT, 
           count INTEGER, 
-          affiliations TEXT,
           time TEXT
         )""");
   }
