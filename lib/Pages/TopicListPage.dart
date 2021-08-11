@@ -1,4 +1,5 @@
 import 'package:conversation_deck/Database/DatabaseListView.dart';
+import 'package:conversation_deck/Topic.dart';
 import 'package:conversation_deck/TopicDatabase.dart';
 import 'package:conversation_deck/Pages/TopicMakePage.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +31,13 @@ class TopicListPage extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         child: DatabaseListView(
-          database: TopicDatabase(),
+          future: TopicDatabase().all(),
+          onTap: (Map<String, dynamic> data) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return TopicMakePage(topic: Topic.deserialize(data));
+            }));
+          },
+          onLongPress: () {},
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LabeledTextField extends StatelessWidget {
+  final String text;
   final String label;
   final String hint;
   final Function onChanged;
@@ -9,6 +10,7 @@ class LabeledTextField extends StatelessWidget {
 
   const LabeledTextField({
     Key? key,
+    required this.text,
     required this.label,
     required this.hint,
     required this.onChanged,
@@ -18,6 +20,7 @@ class LabeledTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: TextEditingController(text: text),
       keyboardType: type,
       maxLines: null,
       decoration: InputDecoration(

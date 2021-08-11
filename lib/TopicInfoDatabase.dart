@@ -44,8 +44,8 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
       if (info.isEmpty) {
         return null;
       }
-      var time = await TimeDatabase().getAt(info["_when"] ?? 0);
-      info["_when"] = Time.deserialize(time!);
+      var time = await TimeDatabase().getAt(info["_when"] ?? 1);
+      info.update("_when", (value) => Time.deserialize(time!));
     });
     return infos;
   }
@@ -57,8 +57,8 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
       return null;
     }
     var info = Map.of(data);
-    var time = await TimeDatabase().getAt(info["_when"] ?? 0);
-    info["_when"] = Time.deserialize(time!);
+    var time = await TimeDatabase().getAt(info["_when"] ?? 1);
+    info.update("_when", (value) => Time.deserialize(time!));
     return info;
   }
 }

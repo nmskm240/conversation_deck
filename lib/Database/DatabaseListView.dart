@@ -4,14 +4,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseListView<T extends DatabaseProvider> extends StatelessWidget {
-  final T database;
+  final Future<List<Map<String, dynamic>>?> future;
+  final Function onTap;
+  final Function onLongPress;
 
-  const DatabaseListView({Key? key, required this.database}) : super(key: key);
+  const DatabaseListView(
+      {Key? key,
+      required this.future,
+      required this.onTap,
+      required this.onLongPress})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: database.all(),
+      future: future,
       builder: (BuildContext context,
           AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,7 +53,11 @@ class DatabaseListView<T extends DatabaseProvider> extends StatelessWidget {
         return ListView.builder(
           itemCount: datas.length,
           itemBuilder: (BuildContext context, int index) {
-            return DatabaseListTile(data: datas[index]);
+            return DatabaseListTile(
+              data: datas[index],
+              onTap: onTap,
+              onLongPress: onLongPress,
+            );
           },
         );
       },

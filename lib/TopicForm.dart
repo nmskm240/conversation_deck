@@ -9,20 +9,39 @@ import 'LabeledTextField.dart';
 import 'LabeledDropdown.dart';
 
 class TopicForm extends StatefulWidget {
+  late final _TopicFormState state;
+
+  TopicForm(Topic? topic) {
+    if (topic == null) {
+      state = _TopicFormState(title: "", info: new TopicInfo());
+    } else {
+      state =
+          _TopicFormState(title: topic.name, info: topic.info, isUpdate: true);
+    }
+  }
+
   @override
-  _TopicFormState createState() => _TopicFormState();
+  _TopicFormState createState() => state;
 }
 
 class _TopicFormState extends State<TopicForm> {
   late Future<List<Map<String, dynamic>>?> _future;
-  var _info = new TopicInfo();
-  var _name = "";
+  final bool isUpdate;
+  final TopicInfo info;
+  String title;
+
+  _TopicFormState(
+      {required this.title, required this.info, this.isUpdate = false});
 
   @override
   void initState() {
     super.initState();
     _future = TimeDatabase().all();
-    _future.then((times) => _info.when = Time.deserialize(times!.first));
+    if (!isUpdate) {
+      TimeDatabase()
+          .getAt(1)
+          .then((time) => {info.when = Time.deserialize(time!)});
+    }
   }
 
   @override
@@ -42,22 +61,23 @@ class _TopicFormState extends State<TopicForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 LabeledTextField(
+                  text: title,
                   label: 'タイトル',
                   hint: '内容を一言で表すと…',
-                  onChanged: (text) => {_name = text},
+                  onChanged: (text) => {title = text},
                 ),
                 LabeledDropdown<Time>(
                   label: "いつ",
-                  value: _info.when,
+                  value: info.when,
                   onChanged: (Time? newValue) {
                     setState(() {
-                      _info.when =
+                      info.when =
                           newValue ?? Time.deserialize(snapshot.data!.first);
                     });
                   },
                   items: snapshot.data!.map((data) {
-                    var time = (data["id"] == _info.when.id)
-                        ? _info.when
+                    var time = (data["id"] == info.when.id)
+                        ? info.when
                         : Time.deserialize(data);
                     return DropdownMenuItem<Time>(
                       child: Text(time.name),
@@ -66,44 +86,51 @@ class _TopicFormState extends State<TopicForm> {
                   }).toList(),
                 ),
                 LabeledTextField(
+                  text: info.where,
                   label: 'どこで',
                   hint: '',
-                  onChanged: (text) => {_info.where = text},
+                  onChanged: (text) => {info.where = text},
                 ),
                 LabeledTextField(
+                  text: info.who,
                   label: 'だれが',
                   hint: '',
-                  onChanged: (text) => {_info.who = text},
+                  onChanged: (text) => {info.who = text},
                 ),
                 LabeledTextField(
+                  text: info.what,
                   label: 'なにを',
                   hint: '',
-                  onChanged: (text) => {_info.what = text},
+                  onChanged: (text) => {info.what = text},
                 ),
                 LabeledTextField(
+                  text: info.why,
                   label: 'なぜ',
                   hint: '',
-                  onChanged: (text) => {_info.why = text},
+                  onChanged: (text) => {info.why = text},
                 ),
                 LabeledTextField(
+                  text: info.how,
                   label: 'どのように',
                   hint: '',
-                  onChanged: (text) => {_info.how = text},
+                  onChanged: (text) => {info.how = text},
                 ),
                 LabeledTextField(
+                  text: info.whatUp,
                   label: 'どうした',
                   hint: '',
-                  onChanged: (text) => {_info.whatUp = text},
+                  onChanged: (text) => {info.whatUp = text},
                 ),
                 LabeledTextField(
+                  text: info.specifically,
                   label: '詳細',
                   hint: '具体的には…？',
-                  onChanged: (text) => {_info.specifically = text},
+                  onChanged: (text) => {info.specifically = text},
                 ),
                 ElevatedButton(
-                  child: Text('作成'),
+                  child: Text('完了'),
                   onPressed: () {
-                    if (_name.isEmpty) {
+                    if (title.isEmpty) {
                       showDialog(
                         context: context,
                         builder: (_) {
@@ -122,8 +149,13 @@ class _TopicFormState extends State<TopicForm> {
                         },
                       );
                     } else {
-                      var card = new Topic(name: _name, info: _info);
-                      TopicDatabase().insert(card);
+                      var topic = new Topic(name: title, info: info);
+                      if (isUpdate) {
+                        TopicDatabase().update(topic);
+                      } else {
+                        TopicDatabase().insert(topic);
+                      }
+                      Navigator.pop(context);
                     }
                   },
                 ),
