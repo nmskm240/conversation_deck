@@ -25,7 +25,9 @@ class DeckListPage extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         child: DatabaseListView(
-          database: DeckDatabase(),
+          future: DeckDatabase().all(),
+          onTap: () {},
+          onLongPress: () {},
         ),
       ),
     );
