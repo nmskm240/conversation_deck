@@ -41,10 +41,10 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
       return Map.of(data);
     }).toList();
     infos.forEach((info) async {
-      if (info.isEmpty || !info.containsKey("_when")) {
+      if (info.isEmpty) {
         return null;
       }
-      var time = await TimeDatabase().getAt(int.tryParse(info["_when"]) ?? 0);
+      var time = await TimeDatabase().getAt(info["_when"] ?? 0);
       info["_when"] = Time.deserialize(time!);
     });
     return infos;
@@ -57,7 +57,7 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
       return null;
     }
     var info = Map.of(data);
-    var time = await TimeDatabase().getAt(int.tryParse(info["_when"]) ?? 0);
+    var time = await TimeDatabase().getAt(info["_when"] ?? 0);
     info["_when"] = Time.deserialize(time!);
     return info;
   }

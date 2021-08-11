@@ -34,11 +34,11 @@ class TopicDatabase extends DatabaseProvider<Topic> {
       return Map.of(data);
     }).toList();
     topics.forEach((topic) async {
-      if (topic.isEmpty || topic.containsKey("id")) {
+      if (topic.isEmpty) {
         return null;
       }
       var info =
-          await TopicInfoDatabase().getAt(int.tryParse(topic["id"]) ?? 0);
+          await TopicInfoDatabase().getAt(topic["id"]);
       topic.addAll({
         "info": TopicInfo.deserialize(info!),
       });
