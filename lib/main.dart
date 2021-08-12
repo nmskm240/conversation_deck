@@ -1,4 +1,4 @@
-import 'package:conversation_deck/Pages/MenuPage.dart';
+import 'Pages/Root.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MenuPage(),
+      home: Root(),
     );
   }
 }

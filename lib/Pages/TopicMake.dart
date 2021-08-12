@@ -3,22 +3,17 @@ import 'package:conversation_deck/TopicForm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TopicMakePage extends StatelessWidget {
+class TopicMake extends StatelessWidget {
   final Topic? topic;
 
-  TopicMakePage({this.topic});
+  TopicMake({this.topic});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('カード編集'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_left_sharp),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: BackButton(),
       ),
       body: TopicForm(topic),
     );
