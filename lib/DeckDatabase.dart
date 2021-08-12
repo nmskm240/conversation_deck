@@ -31,46 +31,52 @@ class DeckDatabase extends DatabaseProvider<Deck> {
     await db.insert(table, new Deck(id: 6, name: "今年", topics: []).serialize());
   }
 
+  Future<Map<String, dynamic>?> _topicsRestore(
+      Map<String, dynamic>? data) async {
+    if (data == null || data.isEmpty) {
+      return null;
+    }
+    var deck = Map.of(data);
+    List<Topic> topics = [];
+    deck["topics"].toString().split(Deck.separator).forEach((id) async {
+      var topic = await TopicDatabase().getAt(int.tryParse(id) ?? -1);
+      if (topic != null) {
+        topics.add(Topic.deserialize(topic));
+      }
+    });
+    deck["topics"] = topics;
+    return deck;
+  }
+
+  Future<List<Map<String, dynamic>>?> _parses(
+      Iterable<Map<String, dynamic>>? datas) async {
+    List<Map<String, dynamic>> decks = [];
+    if (datas != null && datas.isNotEmpty) {
+      datas.forEach((data) async {
+        var deck = await _topicsRestore(data);
+        if (deck != null) {
+          decks.add(deck);
+        }
+      });
+    }
+    return decks;
+  }
+
   @override
   Future<List<Map<String, dynamic>>?> all() async {
     var datas = await super.all();
-    if (datas == null || datas.isEmpty) {
-      return null;
-    }
-    var decks = datas.map((data) {
-      return Map.of(data);
-    }).toList();
-    decks.forEach((deck) async {
-      if (deck.isEmpty || !deck.containsKey("topics")) {
-        return;
-      }
-      var topics =
-          deck["topics"].toString().split(Deck.separator).map((id) async {
-        var topic = await TopicDatabase().getAt(int.tryParse(id) ?? 0);
-        if (topic != null) {
-          return Topic.deserialize(topic);
-        }
-      });
-      deck["topics"] = topics;
-    });
-    return decks;
+    return await _parses(datas);
   }
 
   @override
   Future<Map<String, dynamic>?> getAt(int id) async {
     var data = await super.getAt(id);
-    if (data == null || data.isEmpty || !data.containsKey("topics")) {
-      return null;
-    }
-    var deck = Map.of(data);
-    var topics =
-        deck["topics"].toString().split(Deck.separator).map((id) async {
-      var topic = await TopicDatabase().getAt(int.tryParse(id) ?? 0);
-      if (topic != null) {
-        return Topic.deserialize(topic);
-      }
-    });
-    deck["topics"] = topics;
-    return deck;
+    return await _topicsRestore(data);
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>?> getAts(Iterable<int> ids) async {
+    var datas = await super.getAts(ids);
+    return await _parses(datas);
   }
 }

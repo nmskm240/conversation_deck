@@ -21,12 +21,13 @@ package Database
         +<<property>>database:Future<Database?>{get only}
         -<<async>>_init():Future<Database>
         +<<async>>all():Future<List<Map<String,dynamic>>?>
-        +<<async>>restore():Future
+        +<<async>>reset():Future
         +<<async>>onCreate(db:Database,version:int):Future
         +<<async>>insert(data:T):Future<int?>
         +<<async>>update(data:T):Future<int?>
         +<<async>>deleteAt(id:int):Future<int?>
-        +<<async>>getAt(id:int):Futur<int?>
+        +<<async>>getAt(id:int):Future<Map<String,dynamic>?>
+        +<<async>>getAts(ids:Iterable<int>):Future<List<Map<String,dynamic>>?>
     }
 }
 class Deck
@@ -40,6 +41,8 @@ class DeckDatabase
 {
     -_instance:DeckDatabase
     -_constructor():DeckDatabase
+    -<<async>>_topicsRestore(data:Map<String,dynamic>):Future<Map<String,dynamic>?>
+    -<<async>>_parses(datas:Iterable<Map<String,dynamic>>?):Future<List<Map<String,dynamic>>?>
 }
 class Topic
 {
@@ -66,11 +69,15 @@ class TopicInfoDatabase
 {
     -_instance:TopicInfoDatabase
     -_constructor():TopicInfoDatabase
+    -<<async>>_timeUpdate(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
+    -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
 }
 class TopicDatabase
 {
     -_instance:TopicDatabase
     -_constructor():TopicDatabase
+    -<<async>>_injectInfo(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
+    -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
 }
 class Time
 class TimeDatabase

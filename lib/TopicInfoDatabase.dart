@@ -31,28 +31,7 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
         )""");
   }
 
-  @override
-  Future<List<Map<String, dynamic>>?> all() async {
-    var datas = await super.all();
-    if (datas == null || datas.isEmpty) {
-      return null;
-    }
-    var infos = datas.map((data) {
-      return Map.of(data);
-    }).toList();
-    infos.forEach((info) async {
-      if (info.isEmpty) {
-        return null;
-      }
-      var time = await TimeDatabase().getAt(info["_when"] ?? 1);
-      info.update("_when", (value) => Time.deserialize(time!));
-    });
-    return infos;
-  }
-
-  @override
-  Future<Map<String, dynamic>?> getAt(int id) async {
-    var data = await super.getAt(id);
+  Future<Map<String, dynamic>?> _timeUpdate(Map<String, dynamic>? data) async {
     if (data == null || data.isEmpty) {
       return null;
     }
@@ -60,5 +39,37 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
     var time = await TimeDatabase().getAt(info["_when"] ?? 1);
     info.update("_when", (value) => Time.deserialize(time!));
     return info;
+  }
+
+  Future<List<Map<String, dynamic>>?> _parses(
+      Iterable<Map<String, dynamic>>? datas) async {
+    List<Map<String, dynamic>>? infos = [];
+    if (datas != null && datas.isNotEmpty) {
+      datas.forEach((data) async {
+        var info = await _timeUpdate(data);
+        if (info != null) {
+          infos.add(info);
+        }
+      });
+    }
+    return infos;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>?> all() async {
+    var datas = await super.all();
+    return await _parses(datas);
+  }
+
+  @override
+  Future<Map<String, dynamic>?> getAt(int id) async {
+    var data = await super.getAt(id);
+    return await _timeUpdate(data);
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>?> getAts(Iterable<int> ids) async {
+    var datas = await super.getAts(ids);
+    return await _parses(datas);
   }
 }

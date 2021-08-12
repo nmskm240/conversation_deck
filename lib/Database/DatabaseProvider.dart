@@ -26,7 +26,7 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
     return await db?.query(table);
   }
 
-  Future restore() async {
+  Future reset() async {
     var db = await database;
     if (db != null) {
       await deleteDatabase(db.path);
@@ -53,6 +53,12 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
   Future<Map<String, dynamic>?> getAt(int id) async {
     var db = await database;
     var match = await db?.query(table, where: "id = ?", whereArgs: [id]);
-    return match?.first;
+    return match!.length == 0 ? null : match.first;
+  }
+
+  Future<List<Map<String, dynamic>>?> getAts(Iterable<int> ids) async {
+    var db = await database;
+    return await db?.query(table,
+        where: "id IN (${ids.join(', ')})");
   }
 }

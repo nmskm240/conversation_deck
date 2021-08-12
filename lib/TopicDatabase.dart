@@ -24,32 +24,40 @@ class TopicDatabase extends DatabaseProvider<Topic> {
         )""");
   }
 
-  @override
-  Future<List<Map<String, dynamic>>?> all() async {
-    var datas = await super.all();
-    if (datas == null || datas.isEmpty) {
+  Future<Map<String, dynamic>?> _injectInfo(Map<String, dynamic>? data) async {
+    if (data == null || data.isEmpty) {
       return null;
     }
-    var topics = datas.map((data) {
-      return Map.of(data);
-    }).toList();
-    topics.forEach((topic) async {
-      if (topic.isEmpty) {
-        return null;
-      }
-      var info =
-          await TopicInfoDatabase().getAt(topic["id"]);
-      topic.addAll({
-        "info": TopicInfo.deserialize(info!),
+    var topic = Map.of(data);
+    var info = await TopicInfoDatabase().getAt(topic["id"]);
+    topic.addAll({"info": TopicInfo.deserialize(info!)});
+    return topic;
+  }
+
+  Future<List<Map<String, dynamic>>?> _parses(
+      Iterable<Map<String, dynamic>>? datas) async {
+    List<Map<String, dynamic>> topics = [];
+    if (datas != null && datas.isNotEmpty) {
+      datas.forEach((data) async {
+        var topic = await _injectInfo(data);
+        if (topic != null) {
+          topics.add(topic);
+        }
       });
-    });
+    }
     return topics;
   }
 
   @override
-  Future restore() async {
-    await TopicInfoDatabase().restore();
-    return await super.restore();
+  Future<List<Map<String, dynamic>>?> all() async {
+    var datas = await super.all();
+    return await _parses(datas);
+  }
+
+  @override
+  Future reset() async {
+    await TopicInfoDatabase().reset();
+    return await super.reset();
   }
 
   @override
@@ -72,13 +80,13 @@ class TopicDatabase extends DatabaseProvider<Topic> {
 
   @override
   Future<Map<String, dynamic>?> getAt(int id) async {
-    var info = await TopicInfoDatabase().getAt(id);
     var data = await super.getAt(id);
-    if (info == null || data == null) {
-      return null;
-    }
-    var topic = Map.of(data);
-    topic.addAll({"info": TopicInfo.deserialize(info)});
-    return topic;
+    return await _injectInfo(data);
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>?> getAts(Iterable<int> ids) async {
+    var datas = await super.getAts(ids);
+    return await _parses(datas);
   }
 }
