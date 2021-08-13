@@ -45,12 +45,12 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
       Iterable<Map<String, dynamic>>? datas) async {
     List<Map<String, dynamic>>? infos = [];
     if (datas != null && datas.isNotEmpty) {
-      datas.forEach((data) async {
+      for(var data in datas) {
         var info = await _timeUpdate(data);
         if (info != null) {
           infos.add(info);
         }
-      });
+      }
     }
     return infos;
   }

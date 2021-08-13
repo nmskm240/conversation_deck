@@ -52,12 +52,12 @@ class DeckDatabase extends DatabaseProvider<Deck> {
       Iterable<Map<String, dynamic>>? datas) async {
     List<Map<String, dynamic>> decks = [];
     if (datas != null && datas.isNotEmpty) {
-      datas.forEach((data) async {
+      for(var data in datas) {
         var deck = await _topicsRestore(data);
         if (deck != null) {
           decks.add(deck);
         }
-      });
+      }
     }
     return decks;
   }

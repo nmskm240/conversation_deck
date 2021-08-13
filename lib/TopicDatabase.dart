@@ -38,12 +38,12 @@ class TopicDatabase extends DatabaseProvider<Topic> {
       Iterable<Map<String, dynamic>>? datas) async {
     List<Map<String, dynamic>> topics = [];
     if (datas != null && datas.isNotEmpty) {
-      datas.forEach((data) async {
+      for (var data in datas) {
         var topic = await _injectInfo(data);
         if (topic != null) {
           topics.add(topic);
         }
-      });
+      }
     }
     return topics;
   }
