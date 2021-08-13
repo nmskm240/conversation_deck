@@ -35,6 +35,7 @@ class TopicList extends StatelessWidget {
             );
           } else {
             //TODO: デッキに話題を追加する処理
+
           }
         },
       ),
@@ -43,7 +44,7 @@ class TopicList extends StatelessWidget {
         child: DatabaseListView(
           future: _deck == null
               ? TopicDatabase().all()
-              : TopicDatabase().getAts(_deck!.cards.map((topic) => topic.id)),
+              : TopicDatabase().getAts(_deck!.topics.map((topic) => topic.id)),
           onTap: (Map<String, dynamic> data) {
             Navigator.of(context).push(
               MaterialPageRoute(

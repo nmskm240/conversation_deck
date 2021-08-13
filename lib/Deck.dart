@@ -5,7 +5,7 @@ class Deck extends DatabaseItem {
   List<Topic> _topics = [];
   static String separator = ",";
 
-  Iterable<Topic> get cards => _topics;
+  Iterable<Topic> get topics => _topics;
 
   Deck(
       {int id = 0,
