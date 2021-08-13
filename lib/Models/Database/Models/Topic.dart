@@ -1,4 +1,4 @@
-import 'Database/DatabaseItem.dart';
+import 'DatabaseItem.dart';
 import 'TopicInfo.dart';
 
 class Topic extends DatabaseItem {

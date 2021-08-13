@@ -1,7 +1,7 @@
-import 'TopicInfo.dart';
+import 'DatabaseProvider.dart';
+import 'Models/Topic.dart';
+import 'Models/TopicInfo.dart';
 import 'TopicInfoDatabase.dart';
-import 'Topic.dart';
-import 'Database/DatabaseProvider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TopicDatabase extends DatabaseProvider<Topic> {

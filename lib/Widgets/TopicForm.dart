@@ -1,10 +1,10 @@
+import 'package:conversation_deck/Models/Database/Models/Time.dart';
+import 'package:conversation_deck/Models/Database/Models/Topic.dart';
+import 'package:conversation_deck/Models/Database/Models/TopicInfo.dart';
+import 'package:conversation_deck/Models/Database/TimeDatabase.dart';
+import 'package:conversation_deck/Models/Database/TopicDatabase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'TimeDatabase.dart';
-import 'Time.dart';
-import 'TopicDatabase.dart';
-import 'Topic.dart';
-import 'TopicInfo.dart';
 import 'LabeledTextField.dart';
 import 'LabeledDropdown.dart';
 

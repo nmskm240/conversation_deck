@@ -1,4 +1,4 @@
-import 'package:conversation_deck/FooterItem.dart';
+import 'package:conversation_deck/Widgets/FooterItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

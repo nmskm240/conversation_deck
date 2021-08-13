@@ -1,8 +1,8 @@
-import 'package:conversation_deck/Database/DatabaseListView.dart';
+import 'package:conversation_deck/Models/Database/DeckDatabase.dart';
+import 'package:conversation_deck/Models/Database/Models/Deck.dart';
+import 'package:conversation_deck/Views/DatabaseListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Deck.dart';
-import '../DeckDatabase.dart';
 import 'DeckMake.dart';
 import 'TopicList.dart';
 

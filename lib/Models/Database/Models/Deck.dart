@@ -1,4 +1,4 @@
-import 'Database/DatabaseItem.dart';
+import 'DatabaseItem.dart';
 import 'Topic.dart';
 
 class Deck extends DatabaseItem {

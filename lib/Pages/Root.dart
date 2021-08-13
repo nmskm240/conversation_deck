@@ -1,8 +1,8 @@
 import 'package:conversation_deck/Pages/Home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Footer.dart';
-import '../FooterItem.dart';
+import '../Widgets/Footer.dart';
+import '../Widgets/FooterItem.dart';
 import 'TopicList.dart';
 
 class Root extends StatefulWidget {

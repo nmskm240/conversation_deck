@@ -1,4 +1,4 @@
-import 'Database/DatabaseItem.dart';
+import 'DatabaseItem.dart';
 
 class Time extends DatabaseItem {
   Time({int id = 0, required String name, String detail = ""})

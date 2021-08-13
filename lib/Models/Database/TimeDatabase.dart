@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
-import 'Database/DatabaseProvider.dart';
-import 'Time.dart';
+import 'DatabaseProvider.dart';
+import 'Models/Time.dart';
 
 class TimeDatabase extends DatabaseProvider<Time> {
   static final TimeDatabase _instance = TimeDatabase._constructor();

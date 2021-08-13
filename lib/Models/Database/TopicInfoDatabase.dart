@@ -1,7 +1,7 @@
-import 'package:conversation_deck/Database/DatabaseProvider.dart';
-import 'package:conversation_deck/Time.dart';
-import 'package:conversation_deck/TimeDatabase.dart';
-import 'package:conversation_deck/TopicInfo.dart';
+import 'DatabaseProvider.dart';
+import 'Models/Time.dart';
+import 'Models/TopicInfo.dart';
+import 'TimeDatabase.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {

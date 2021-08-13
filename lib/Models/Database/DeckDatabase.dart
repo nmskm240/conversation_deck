@@ -1,8 +1,8 @@
-import 'package:conversation_deck/Topic.dart';
-import 'package:conversation_deck/TopicDatabase.dart';
+import 'Models/Deck.dart';
+import 'Models/Topic.dart';
+import 'TopicDatabase.dart';
 import 'package:sqflite/sqflite.dart';
-import 'Database/DatabaseProvider.dart';
-import 'Deck.dart';
+import 'DatabaseProvider.dart';
 
 class DeckDatabase extends DatabaseProvider<Deck> {
   static final DeckDatabase _instance = DeckDatabase._constructor();

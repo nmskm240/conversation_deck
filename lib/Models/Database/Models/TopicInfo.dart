@@ -1,4 +1,4 @@
-import 'Database/DatabaseItem.dart';
+import 'DatabaseItem.dart';
 import 'Time.dart';
 
 class TopicInfo extends DatabaseItem {
