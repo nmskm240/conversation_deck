@@ -1,4 +1,4 @@
-import 'DatabaseItem.dart';
+import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
 
 class Time extends DatabaseItem {
   Time({int id = 0, required String name, String detail = ""})

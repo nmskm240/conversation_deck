@@ -1,6 +1,6 @@
+import 'package:conversation_deck/Models/Time.dart';
+import 'package:conversation_deck/Models/TopicInfo.dart';
 import 'DatabaseProvider.dart';
-import 'Models/Time.dart';
-import 'Models/TopicInfo.dart';
 import 'TimeDatabase.dart';
 import 'package:sqflite/sqflite.dart';
 

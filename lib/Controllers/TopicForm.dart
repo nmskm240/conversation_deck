@@ -1,12 +1,12 @@
-import 'package:conversation_deck/Models/Database/Models/Time.dart';
-import 'package:conversation_deck/Models/Database/Models/Topic.dart';
-import 'package:conversation_deck/Models/Database/Models/TopicInfo.dart';
-import 'package:conversation_deck/Models/Database/TimeDatabase.dart';
-import 'package:conversation_deck/Models/Database/TopicDatabase.dart';
+import 'package:conversation_deck/Models/Time.dart';
+import 'package:conversation_deck/Models/Topic.dart';
+import 'package:conversation_deck/Models/TopicInfo.dart';
+import 'package:conversation_deck/Database/TimeDatabase.dart';
+import 'package:conversation_deck/Database/TopicDatabase.dart';
+import 'package:conversation_deck/Views/LabeledDropdown.dart';
+import 'package:conversation_deck/Views/LabeledTextField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'LabeledTextField.dart';
-import 'LabeledDropdown.dart';
 
 class TopicForm extends StatefulWidget {
   late final _TopicFormState state;

@@ -1,4 +1,4 @@
-import 'DatabaseItem.dart';
+import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
 import 'TopicInfo.dart';
 
 class Topic extends DatabaseItem {

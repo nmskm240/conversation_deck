@@ -1,5 +1,5 @@
-import 'package:conversation_deck/Models/Database/DeckDatabase.dart';
-import 'package:conversation_deck/Models/Database/Models/Deck.dart';
+import 'package:conversation_deck/Database/DeckDatabase.dart';
+import 'package:conversation_deck/Models/Deck.dart';
 import 'package:conversation_deck/Views/DatabaseListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

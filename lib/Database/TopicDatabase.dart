@@ -1,6 +1,6 @@
+import 'package:conversation_deck/Models/Topic.dart';
+import 'package:conversation_deck/Models/TopicInfo.dart';
 import 'DatabaseProvider.dart';
-import 'Models/Topic.dart';
-import 'Models/TopicInfo.dart';
 import 'TopicInfoDatabase.dart';
 import 'package:sqflite/sqflite.dart';
 

@@ -1,5 +1,5 @@
-import 'package:conversation_deck/Models/Database/Models/Topic.dart';
-import 'package:conversation_deck/Widgets/TopicForm.dart';
+import 'package:conversation_deck/Controllers/TopicForm.dart';
+import 'package:conversation_deck/Models/Topic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

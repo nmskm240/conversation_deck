@@ -1,6 +1,6 @@
-import 'package:conversation_deck/Models/Database/Models/Deck.dart';
-import 'package:conversation_deck/Models/Database/Models/Topic.dart';
-import 'package:conversation_deck/Models/Database/TopicDatabase.dart';
+import 'package:conversation_deck/Database/TopicDatabase.dart';
+import 'package:conversation_deck/Models/Deck.dart';
+import 'package:conversation_deck/Models/Topic.dart';
 import 'package:conversation_deck/Pages/TopicMake.dart';
 import 'package:conversation_deck/Views/DatabaseListView.dart';
 import 'package:flutter/cupertino.dart';
