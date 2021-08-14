@@ -1,16 +1,24 @@
 @startuml Conversation deck cards
+package Controllers
+{
+    class TopicForm
+}
+
 package Database
 {
-    abstract DatabaseItem
+    package Models
     {
-        -_id:int
-        -_name:String
-        -_detail:String
-        +<<property>>id:int{get only}
-        +<<property>>name:String{get only}
-        +<<property>>detail:String{get only}
-        +deserialize(data:Map<String, dynamic>):DatabaseItem
-        +serialize():Map<String, dyanmic>
+        abstract DatabaseItem
+        {
+            -_id:int
+            -_name:String
+            -_detail:String
+            +<<property>>id:int{get only}
+            +<<property>>name:String{get only}
+            +<<property>>detail:String{get only}
+            +deserialize(data:Map<String, dynamic>):DatabaseItem
+            +serialize():Map<String, dyanmic>
+        }
     }
     abstract DatabaseProvider<T extends DatabaseItem>
     {
@@ -29,68 +37,122 @@ package Database
         +<<async>>getAt(id:int):Future<Map<String,dynamic>?>
         +<<async>>getAts(ids:Iterable<int>):Future<List<Map<String,dynamic>>?>
     }
-}
-class Deck
-{
-    -_topics:List<Topic>
-    +<<property>>topics:Iterable<Topic>
-    +draw(count:int):List<Topic>
-    +shuffle():void
-}
-class DeckDatabase
-{
-    -_instance:DeckDatabase
-    -_constructor():DeckDatabase
-    -<<async>>_topicsRestore(data:Map<String,dynamic>):Future<Map<String,dynamic>?>
-    -<<async>>_parses(datas:Iterable<Map<String,dynamic>>?):Future<List<Map<String,dynamic>>?>
-}
-class Topic
-{
-    -_useCount:int
-    -_info:TopicInfo
-    -_timestamp:DateTime
-    +<<property>>useCount:int{get only}
-    +<<property>>info:TopicInfo{get only}
-    +<<property>>timestamp:DateTime{get only}
-    +use():void
-}
-class TopicInfo
-{
-    +when:Time
-    +where:String
-    +who:String
-    +what:String
-    +why:String
-    +how:String
-    +whatUp:String
-    +specifically:String
-}
-class TopicInfoDatabase
-{
-    -_instance:TopicInfoDatabase
-    -_constructor():TopicInfoDatabase
-    -<<async>>_timeUpdate(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
-    -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
-}
-class TopicDatabase
-{
-    -_instance:TopicDatabase
-    -_constructor():TopicDatabase
-    -<<async>>_injectInfo(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
-    -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
-}
-class Time
-class TimeDatabase
-{
-    -_instance:TimeDatabase
-    -_constructor():TimeDatabase
+    class DeckDatabase
+    {
+        -_instance:DeckDatabase
+        -_constructor():DeckDatabase
+        -<<async>>_topicsRestore(data:Map<String,dynamic>):Future<Map<String,dynamic>?>
+        -<<async>>_parses(datas:Iterable<Map<String,dynamic>>?):Future<List<Map<String,dynamic>>?>
+    }
+    class TimeDatabase
+    {
+        -_instance:TimeDatabase
+        -_constructor():TimeDatabase
+    }
+    class TopicDatabase
+    {
+        -_instance:TopicDatabase
+        -_constructor():TopicDatabase
+        -<<async>>_injectInfo(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
+        -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
+    }
+    class TopicInfoDatabase
+    {
+        -_instance:TopicInfoDatabase
+        -_constructor():TopicInfoDatabase
+        -<<async>>_timeUpdate(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
+        -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
+    }
 }
 
-DatabaseProvider --> DatabaseItem
-DeckDatabase --> Deck
-TopicDatabase --> Topic
-TopicInfoDatabase --> TopicInfo
-TimeDatabase --> Time
+package "Models "
+{
+    class DatabaseListTile
+    {
+        +data:Mao<String,dynamic>
+        +onTap:Function
+        +onLongPress:Function
+    }
+    class Deck
+    {
+        -_topics:List<Topic>
+        +<<property>>topics:Iterable<Topic>
+        +draw(count:int):List<Topic>
+        +shuffle():void
+    }
+    class FooterItem
+    {
+        +route:Widget
+    }
+    class Time
+    class Topic
+    {
+        -_useCount:int
+        -_info:TopicInfo
+        -_timestamp:DateTime
+        +<<property>>useCount:int{get only}
+        +<<property>>info:TopicInfo{get only}
+        +<<property>>timestamp:DateTime{get only}
+        +use():void
+    }
+    class TopicInfo
+    {
+        +when:Time
+        +where:String
+        +who:String
+        +what:String
+        +why:String
+        +how:String
+        +whatUp:String
+        +specifically:String
+    }
+}
+package Pages
+{
+    class DeckMake
+    class Home
+    class Root
+    class TopicList
+    class TopicMake
+}
+package Views
+{
+    class DatabaseListView
+    {
+        +future:Future<List<Map<String,dynamic>>?>
+        +onTap:Function
+        +onLongPress:Function
+    }
+    class Footer
+    {
+        +items:List<FooterItem>
+        +onTap:Function(int)
+    }
+    class LabeledDropdown
+    {
+        +label:String
+        +value:T
+        +onChanged:Function
+        +items:List<DropdownMenuItem<T>>?
+    }
+    class LabeledTextField
+    {
+        +text:String
+        +label:String
+        +hing:String
+        +onChanged:Function
+        +type:TextInputType
+    }
+}
+
+DatabaseProvider -left-> DatabaseItem
+DeckDatabase --> TopicDatabase : use
+TopicDatabase --> TopicInfoDatabase : use
+TopicInfoDatabase --> TimeDatabase : use
+Root --> Footer
+Home --> DatabaseListView
+TopicList --> DatabaseListView
+TopicMake --> TopicForm
 
 DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
@@ -102,8 +164,13 @@ TopicInfo --|> DatabaseItem
 Time --|> DatabaseItem
 
 Topic "1" *--> "1" TopicInfo
-Deck "1" *--> "many" Topic
 
 TopicInfo "1" *-- "1" Time
+TopicForm "1" *-- "*" LabeledDropdown
+TopicForm "1" *-- "*" LabeledTextField
+Footer "1" *-- "*" FooterItem
+
+Deck "1" o-- "*" Topic
+DatabaseListView "1" o-- "*" DatabaseListTile
 
 @enduml
