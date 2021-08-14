@@ -36,12 +36,12 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
 
   Future<int?> insert(T data) async {
     var db = await database;
-    return await db?.insert(table, data.serialize());
+    return await db?.insert(table, data.toMap());
   }
 
   Future<int?> update(T data) async {
     var db = await database;
-    return await db?.update(table, data.serialize(),
+    return await db?.update(table, data.toMap(),
         where: 'id = ?', whereArgs: [data.id]);
   }
 

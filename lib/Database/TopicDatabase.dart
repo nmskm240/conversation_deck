@@ -30,7 +30,7 @@ class TopicDatabase extends DatabaseProvider<Topic> {
     }
     var topic = Map.of(data);
     var info = await TopicInfoDatabase().getAt(topic["id"]);
-    topic.addAll({"info": TopicInfo.deserialize(info!)});
+    topic.addAll({"info": TopicInfo.parse(info!)});
     return topic;
   }
 

@@ -22,13 +22,13 @@ class DeckDatabase extends DatabaseProvider<Deck> {
           topics TEXT
         )
         """);
-    await db.insert(table, new Deck(id: 0, name: "今日", topics: []).serialize());
-    await db.insert(table, new Deck(id: 1, name: "昨日", topics: []).serialize());
-    await db.insert(table, new Deck(id: 2, name: "今週", topics: []).serialize());
-    await db.insert(table, new Deck(id: 3, name: "先週", topics: []).serialize());
-    await db.insert(table, new Deck(id: 4, name: "今月", topics: []).serialize());
-    await db.insert(table, new Deck(id: 5, name: "先月", topics: []).serialize());
-    await db.insert(table, new Deck(id: 6, name: "今年", topics: []).serialize());
+    await db.insert(table, new Deck(id: 0, name: "今日", topics: []).toMap());
+    await db.insert(table, new Deck(id: 1, name: "昨日", topics: []).toMap());
+    await db.insert(table, new Deck(id: 2, name: "今週", topics: []).toMap());
+    await db.insert(table, new Deck(id: 3, name: "先週", topics: []).toMap());
+    await db.insert(table, new Deck(id: 4, name: "今月", topics: []).toMap());
+    await db.insert(table, new Deck(id: 5, name: "先月", topics: []).toMap());
+    await db.insert(table, new Deck(id: 6, name: "今年", topics: []).toMap());
   }
 
   Future<Map<String, dynamic>?> _topicsRestore(
@@ -41,7 +41,7 @@ class DeckDatabase extends DatabaseProvider<Deck> {
     deck["topics"].toString().split(Deck.separator).forEach((id) async {
       var topic = await TopicDatabase().getAt(int.tryParse(id) ?? -1);
       if (topic != null) {
-        topics.add(Topic.deserialize(topic));
+        topics.add(Topic.parse(topic));
       }
     });
     deck["topics"] = topics;

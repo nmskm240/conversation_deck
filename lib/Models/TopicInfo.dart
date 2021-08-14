@@ -13,7 +13,7 @@ class TopicInfo extends DatabaseItem {
 
   TopicInfo();
 
-  TopicInfo.deserialize(Map<String, dynamic> json) : super.deserialize(json) {
+  TopicInfo.parse(Map<String, dynamic> json) : super.parse(json) {
     when = json["_when"];
     where = json['_where'];
     who = json['who'];
@@ -25,8 +25,8 @@ class TopicInfo extends DatabaseItem {
   }
 
   @override
-  Map<String, dynamic> serialize() {
-    var map = super.serialize();
+  Map<String, dynamic> toMap() {
+    var map = super.toMap();
     map.addAll({
       '_when': when.id,
       '_where': where,

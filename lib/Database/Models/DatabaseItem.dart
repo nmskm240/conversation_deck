@@ -12,12 +12,12 @@ abstract class DatabaseItem {
     _name = name;
     _detail = detail;
   }
-  DatabaseItem.deserialize(Map<String, dynamic> obj) {
+  DatabaseItem.parse(Map<String, dynamic> obj) {
     _id = obj["id"];
     _name = obj["name"];
     _detail = obj["detail"];
   }
-  Map<String, dynamic> serialize() => {
+  Map<String, dynamic> toMap() => {
         "name": _name,
         "detail": _detail,
       };

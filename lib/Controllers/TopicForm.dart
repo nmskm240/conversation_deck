@@ -40,7 +40,7 @@ class _TopicFormState extends State<TopicForm> {
     if (!isUpdate) {
       TimeDatabase()
           .getAt(1)
-          .then((time) => {info.when = Time.deserialize(time!)});
+          .then((time) => {info.when = Time.parse(time!)});
     }
   }
 
@@ -72,13 +72,13 @@ class _TopicFormState extends State<TopicForm> {
                   onChanged: (Time? newValue) {
                     setState(() {
                       info.when =
-                          newValue ?? Time.deserialize(snapshot.data!.first);
+                          newValue ?? Time.parse(snapshot.data!.first);
                     });
                   },
                   items: snapshot.data!.map((data) {
                     var time = (data["id"] == info.when.id)
                         ? info.when
-                        : Time.deserialize(data);
+                        : Time.parse(data);
                     return DropdownMenuItem<Time>(
                       child: Text(time.name),
                       value: time,

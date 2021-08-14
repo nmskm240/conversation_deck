@@ -37,7 +37,7 @@ class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
     }
     var info = Map.of(data);
     var time = await TimeDatabase().getAt(info["_when"] ?? 1);
-    info.update("_when", (value) => Time.deserialize(time!));
+    info.update("_when", (value) => Time.parse(time!));
     return info;
   }
 

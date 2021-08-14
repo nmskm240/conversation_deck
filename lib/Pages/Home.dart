@@ -31,7 +31,7 @@ class Home extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) {
                   return TopicList(
-                    deck: Deck.deserialize(data),
+                    deck: Deck.parse(data),
                   );
                 },
               ),

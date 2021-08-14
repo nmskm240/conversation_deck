@@ -16,8 +16,8 @@ package Database
             +<<property>>id:int{get only}
             +<<property>>name:String{get only}
             +<<property>>detail:String{get only}
-            +deserialize(data:Map<String, dynamic>):DatabaseItem
-            +serialize():Map<String, dyanmic>
+            +parse(data:Map<String, dynamic>):DatabaseItem
+            +toMap():Map<String, dyanmic>
         }
     }
     abstract DatabaseProvider<T extends DatabaseItem>

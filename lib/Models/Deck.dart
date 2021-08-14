@@ -16,13 +16,13 @@ class Deck extends DatabaseItem {
     _topics = topics.toList();
   }
 
-  Deck.deserialize(Map<String, dynamic> obj) : super.deserialize(obj) {
+  Deck.parse(Map<String, dynamic> obj) : super.parse(obj) {
     _topics = obj["topics"];
   }
 
   @override
-  Map<String, dynamic> serialize() {
-    var map = super.serialize();
+  Map<String, dynamic> toMap() {
+    var map = super.toMap();
     map.addAll({"topics": _topics.map((topic) => topic.id).join(separator)});
     return map;
   }

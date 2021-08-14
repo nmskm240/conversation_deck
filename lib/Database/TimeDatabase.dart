@@ -19,12 +19,12 @@ class TimeDatabase extends DatabaseProvider<Time> {
           detail TEXT
         )
         """);
-    await db.insert(table, new Time(id: 1, name: "今日").serialize());
-    await db.insert(table, new Time(id: 2, name: "昨日").serialize());
-    await db.insert(table, new Time(id: 3, name: "今週").serialize());
-    await db.insert(table, new Time(id: 4, name: "先週").serialize());
-    await db.insert(table, new Time(id: 5, name: "今月").serialize());
-    await db.insert(table, new Time(id: 6, name: "先月").serialize());
-    await db.insert(table, new Time(id: 7, name: "今年").serialize());
+    await db.insert(table, new Time(id: 1, name: "今日").toMap());
+    await db.insert(table, new Time(id: 2, name: "昨日").toMap());
+    await db.insert(table, new Time(id: 3, name: "今週").toMap());
+    await db.insert(table, new Time(id: 4, name: "先週").toMap());
+    await db.insert(table, new Time(id: 5, name: "今月").toMap());
+    await db.insert(table, new Time(id: 6, name: "先月").toMap());
+    await db.insert(table, new Time(id: 7, name: "今年").toMap());
   }
 }

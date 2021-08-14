@@ -49,7 +49,7 @@ class TopicList extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return TopicMake(topic: Topic.deserialize(data));
+                  return TopicMake(topic: Topic.parse(data));
                 },
               ),
             );

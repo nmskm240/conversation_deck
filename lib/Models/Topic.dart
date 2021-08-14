@@ -19,15 +19,15 @@ class Topic extends DatabaseItem {
     _useCount++;
   }
 
-  Topic.deserialize(Map<String, dynamic> json) : super.deserialize(json) {
+  Topic.parse(Map<String, dynamic> json) : super.parse(json) {
     _useCount = json["count"];
     _info = json["info"];
     _timestamp = DateTime.tryParse(json["time"]) ?? DateTime.now();
   }
 
   @override
-  Map<String, dynamic> serialize() {
-    var map = super.serialize();
+  Map<String, dynamic> toMap() {
+    var map = super.toMap();
     map.addAll({
       "count": _useCount,
       "time": _timestamp.toString()
