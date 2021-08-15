@@ -6,26 +6,22 @@ import 'package:conversation_deck/Views/DatabaseListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class TopicList extends StatelessWidget {
-  Deck? _deck;
-  AppBar? _appBar;
+  final Deck? deck;
 
-  TopicList({Deck? deck}) {
-    _deck = deck;
-    _appBar = deck == null
-        ? null
-        : AppBar(title: Text(deck.name), leading: BackButton());
-  }
+  TopicList({Key? key, required this.deck}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar,
+      appBar: AppBar(
+        title: Text(deck == null ? "話題一覧" : deck!.name),
+        leading: deck == null ? null : BackButton(),
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          if (_deck == null) {
+          if (deck == null) {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
@@ -42,9 +38,9 @@ class TopicList extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         child: DatabaseListView(
-          future: _deck == null
+          future: deck == null
               ? TopicDatabase().all()
-              : TopicDatabase().getAts(_deck!.topics.map((topic) => topic.id)),
+              : TopicDatabase().getAts(deck!.topics.map((topic) => topic.id)),
           onTap: (Topic? data) {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -55,7 +51,7 @@ class TopicList extends StatelessWidget {
             );
           },
           onLongPress: (Topic? data) {
-            if (_deck == null) {
+            if (deck == null) {
               //TODO: 話題をデータベース上から削除する処理
             } else {
               //TODO: デッキから話題を削除する処理
