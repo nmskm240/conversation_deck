@@ -6,4 +6,7 @@ class Time extends DatabaseItem {
   Time.parse(Map<String, dynamic> json) : super.parse(json);
   @override
   Map<String, dynamic> toMap() => super.toMap();
+
+  @override
+  Future init(Map<String, dynamic> obj) async {}
 }

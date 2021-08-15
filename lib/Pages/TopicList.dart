@@ -45,16 +45,16 @@ class TopicList extends StatelessWidget {
           future: _deck == null
               ? TopicDatabase().all()
               : TopicDatabase().getAts(_deck!.topics.map((topic) => topic.id)),
-          onTap: (Map<String, dynamic> data) {
+          onTap: (Topic? data) {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return TopicMake(topic: Topic.parse(data));
+                  return TopicMake(topic: data);
                 },
               ),
             );
           },
-          onLongPress: () {
+          onLongPress: (Topic? data) {
             if (_deck == null) {
               //TODO: 話題をデータベース上から削除する処理
             } else {

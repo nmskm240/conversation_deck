@@ -1,6 +1,4 @@
 import 'package:conversation_deck/Models/Deck.dart';
-import 'package:conversation_deck/Models/Topic.dart';
-import 'TopicDatabase.dart';
 import 'DatabaseProvider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -29,54 +27,5 @@ class DeckDatabase extends DatabaseProvider<Deck> {
     await db.insert(table, new Deck(id: 4, name: "今月", topics: []).toMap());
     await db.insert(table, new Deck(id: 5, name: "先月", topics: []).toMap());
     await db.insert(table, new Deck(id: 6, name: "今年", topics: []).toMap());
-  }
-
-  Future<Map<String, dynamic>?> _topicsRestore(
-      Map<String, dynamic>? data) async {
-    if (data == null || data.isEmpty) {
-      return null;
-    }
-    var deck = Map.of(data);
-    List<Topic> topics = [];
-    deck["topics"].toString().split(Deck.separator).forEach((id) async {
-      var topic = await TopicDatabase().getAt(int.tryParse(id) ?? -1);
-      if (topic != null) {
-        topics.add(Topic.parse(topic));
-      }
-    });
-    deck["topics"] = topics;
-    return deck;
-  }
-
-  Future<List<Map<String, dynamic>>?> _parses(
-      Iterable<Map<String, dynamic>>? datas) async {
-    List<Map<String, dynamic>> decks = [];
-    if (datas != null && datas.isNotEmpty) {
-      for(var data in datas) {
-        var deck = await _topicsRestore(data);
-        if (deck != null) {
-          decks.add(deck);
-        }
-      }
-    }
-    return decks;
-  }
-
-  @override
-  Future<List<Map<String, dynamic>>?> all() async {
-    var datas = await super.all();
-    return await _parses(datas);
-  }
-
-  @override
-  Future<Map<String, dynamic>?> getAt(int id) async {
-    var data = await super.getAt(id);
-    return await _topicsRestore(data);
-  }
-
-  @override
-  Future<List<Map<String, dynamic>>?> getAts(Iterable<int> ids) async {
-    var datas = await super.getAts(ids);
-    return await _parses(datas);
   }
 }

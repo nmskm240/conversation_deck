@@ -18,31 +18,39 @@ package Database
             +<<property>>detail:String{get only}
             +parse(data:Map<String, dynamic>):DatabaseItem
             +toMap():Map<String, dyanmic>
+            +{abstract}init(obj:Map<String,dynamic>):Future
+        }
+    }
+    package Utils
+    {
+        class Builder
+        {
+            -_constructor:Map<Type,dynamic Function(Map<String,dynamic>)>
+            -{static}_instance:Builder
+            -_constructor:Builder()
+            +make<T>(arguments:Map<String,dynamic>):T?
         }
     }
     abstract DatabaseProvider<T extends DatabaseItem>
     {
-        -_name:String
         +version:int
         +table:String
         -_database:Database?
         +<<property>>database:Future<Database?>{get only}
         -<<async>>_init():Future<Database>
-        +<<async>>all():Future<List<Map<String,dynamic>>?>
+        +<<async>>all():Future<List<T?>>
         +<<async>>reset():Future
-        +<<async>>onCreate(db:Database,version:int):Future
+        +{abstract}<<async>>onCreate(db:Database,version:int):Future
         +<<async>>insert(data:T):Future<int?>
         +<<async>>update(data:T):Future<int?>
         +<<async>>deleteAt(id:int):Future<int?>
-        +<<async>>getAt(id:int):Future<Map<String,dynamic>?>
-        +<<async>>getAts(ids:Iterable<int>):Future<List<Map<String,dynamic>>?>
+        +<<async>>getAt(id:int):Future<T?>
+        +<<async>>getAts(ids:Iterable<int>):Future<List<T?>>
     }
     class DeckDatabase
     {
         -_instance:DeckDatabase
         -_constructor():DeckDatabase
-        -<<async>>_topicsRestore(data:Map<String,dynamic>):Future<Map<String,dynamic>?>
-        -<<async>>_parses(datas:Iterable<Map<String,dynamic>>?):Future<List<Map<String,dynamic>>?>
     }
     class TimeDatabase
     {
@@ -53,25 +61,21 @@ package Database
     {
         -_instance:TopicDatabase
         -_constructor():TopicDatabase
-        -<<async>>_injectInfo(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
-        -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
     }
     class TopicInfoDatabase
     {
         -_instance:TopicInfoDatabase
         -_constructor():TopicInfoDatabase
-        -<<async>>_timeUpdate(data:Map<String, dynamic>?):Future<Map<String, dynamic>?>
-        -<<async>>_parses(datas:Iterable<Map<String, dynamic>>?):Future<List<Map<String, dynamic>>?>
     }
 }
 
 package "Models "
 {
-    class DatabaseListTile
+    class DatabaseListTile<T extends DatabaseItem>
     {
-        +data:Mao<String,dynamic>
-        +onTap:Function
-        +onLongPress:Function
+        +data:T?
+        +onTap:void Function(T?)
+        +onLongPress:void Function(T?)
     }
     class Deck
     {
@@ -119,9 +123,9 @@ package Views
 {
     class DatabaseListView
     {
-        +future:Future<List<Map<String,dynamic>>?>
-        +onTap:Function
-        +onLongPress:Function
+        +future:Future<List<T?>>
+        +onTap:void Function(T?)
+        +onLongPress:void Function(T?)
     }
     class Footer
     {
@@ -145,14 +149,17 @@ package Views
     }
 }
 
-DatabaseProvider -left-> DatabaseItem
-DeckDatabase --> TopicDatabase : use
-TopicDatabase --> TopicInfoDatabase : use
-TopicInfoDatabase --> TimeDatabase : use
+DatabaseProvider --> DatabaseItem
+DatabaseProvider --> Builder : use
+Deck --> TopicDatabase : use
+Topic --> TopicInfoDatabase : use
+TopicInfo --> TimeDatabase : use
 Root --> Footer
 Home --> DatabaseListView
 TopicList --> DatabaseListView
 TopicMake --> TopicForm
+TopicForm --> Topic : create
+Builder -left-> DatabaseItem : create
 
 DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
@@ -163,14 +170,19 @@ Topic --|> DatabaseItem
 TopicInfo --|> DatabaseItem
 Time --|> DatabaseItem
 
-Topic "1" *--> "1" TopicInfo
+Topic "1" *-right-> "1" TopicInfo
 
-TopicInfo "1" *-- "1" Time
+DeckDatabase *-up- Deck
+TopicDatabase *-up- Topic
+TopicInfoDatabase *-up- TopicInfo
+TimeDatabase *-up- Time
+TopicInfo "1" *-right- "1" Time
 TopicForm "1" *-- "*" LabeledDropdown
 TopicForm "1" *-- "*" LabeledTextField
 Footer "1" *-- "*" FooterItem
+DatabaseListTile "1" *-- "1" DatabaseItem
 
-Deck "1" o-- "*" Topic
+Deck "1" o-right- "*" Topic
 DatabaseListView "1" o-- "*" DatabaseListTile
 
 @enduml

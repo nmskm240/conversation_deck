@@ -1,4 +1,5 @@
 import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
+import 'package:conversation_deck/Database/TimeDatabase.dart';
 import 'Time.dart';
 
 class TopicInfo extends DatabaseItem {
@@ -14,7 +15,6 @@ class TopicInfo extends DatabaseItem {
   TopicInfo();
 
   TopicInfo.parse(Map<String, dynamic> json) : super.parse(json) {
-    when = json["_when"];
     where = json['_where'];
     who = json['who'];
     what = json['what'];
@@ -38,5 +38,15 @@ class TopicInfo extends DatabaseItem {
       'specifically': specifically,
     });
     return map;
+  }
+
+  @override
+  Future init(Map<String, dynamic> obj) async {
+    var time = await TimeDatabase().getAt(obj["_when"]);
+    if (time != null) {
+      when = time;
+    } else {
+      throw Error();
+    }
   }
 }

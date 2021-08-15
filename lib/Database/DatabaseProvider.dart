@@ -1,3 +1,5 @@
+import 'package:conversation_deck/Database/Utils/Builder.dart';
+
 import 'Models/DatabaseItem.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,11 +21,18 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
     return await openDatabase(path, version: version, onCreate: onCreate);
   }
 
-  Future onCreate(Database db, int version) async {}
+  Future onCreate(Database db, int version);
 
-  Future<List<Map<String, dynamic>>?> all() async {
+  Future<List<T?>> all() async {
     var db = await database;
-    return await db?.query(table);
+    var datas = await db?.query(table);
+    List<T> items = [];
+    for (var data in datas!) {
+      var item = Builder().make<T>(data);
+      await item!.init(data);
+      items.add(item);
+    }
+    return items;
   }
 
   Future reset() async {
@@ -41,8 +50,8 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
 
   Future<int?> update(T data) async {
     var db = await database;
-    return await db?.update(table, data.toMap(),
-        where: 'id = ?', whereArgs: [data.id]);
+    return await db
+        ?.update(table, data.toMap(), where: 'id = ?', whereArgs: [data.id]);
   }
 
   Future<int?> deleteAt(int id) async {
@@ -50,15 +59,28 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
     return await db?.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<Map<String, dynamic>?> getAt(int id) async {
+  Future<T?> getAt(int id) async {
     var db = await database;
     var match = await db?.query(table, where: "id = ?", whereArgs: [id]);
-    return match!.length == 0 ? null : match.first;
+    if (0 < match!.length) {
+      var data = match.first;
+      var item = Builder().make<T>(data);
+      await item!.init(data);
+      return item;
+    }
+    return null;
   }
 
-  Future<List<Map<String, dynamic>>?> getAts(Iterable<int> ids) async {
+  Future<List<T?>> getAts(Iterable<int> ids) async {
     var db = await database;
-    return await db?.query(table,
-        where: "id IN (${ids.join(', ')})");
+    var datas = await db?.query(table,
+        where: "id IN (${ids.cast<String>().join(', ')})");
+    List<T> items = [];
+    for (var data in datas!) {
+      var item = Builder().make<T>(data);
+      await item!.init(data);
+      items.add(item);
+    }
+    return items;
   }
 }

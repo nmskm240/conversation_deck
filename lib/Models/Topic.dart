@@ -1,4 +1,5 @@
 import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
+import 'package:conversation_deck/Database/TopicInfoDatabase.dart';
 import 'TopicInfo.dart';
 
 class Topic extends DatabaseItem {
@@ -15,23 +16,29 @@ class Topic extends DatabaseItem {
     _info = info;
   }
 
-  void use() {
-    _useCount++;
-  }
-
   Topic.parse(Map<String, dynamic> json) : super.parse(json) {
     _useCount = json["count"];
-    _info = json["info"];
     _timestamp = DateTime.tryParse(json["time"]) ?? DateTime.now();
   }
 
   @override
   Map<String, dynamic> toMap() {
     var map = super.toMap();
-    map.addAll({
-      "count": _useCount,
-      "time": _timestamp.toString()
-    });
+    map.addAll({"count": _useCount, "time": _timestamp.toString()});
     return map;
+  }
+
+  @override
+  Future init(Map<String, dynamic> obj) async {
+    var data = await TopicInfoDatabase().getAt(id);
+    if (data != null) {
+      _info = data;
+    } else {
+      throw Error();
+    }
+  }
+
+  void use() {
+    _useCount++;
   }
 }

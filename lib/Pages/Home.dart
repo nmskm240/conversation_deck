@@ -26,18 +26,18 @@ class Home extends StatelessWidget {
         alignment: Alignment.center,
         child: DatabaseListView(
           future: DeckDatabase().all(),
-          onTap: (Map<String, dynamic> data) {
+          onTap: (Deck? data) {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
                   return TopicList(
-                    deck: Deck.parse(data),
+                    deck: data,
                   );
                 },
               ),
             );
           },
-          onLongPress: () {
+          onLongPress: (Deck? data) {
             //TODO: デッキを削除する処理
           },
         ),

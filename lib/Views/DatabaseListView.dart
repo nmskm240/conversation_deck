@@ -1,12 +1,12 @@
-import 'package:conversation_deck/Database/DatabaseProvider.dart';
+import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
 import 'package:conversation_deck/Models/DatabaseListTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DatabaseListView<T extends DatabaseProvider> extends StatelessWidget {
-  final Future<List<Map<String, dynamic>>?> future;
-  final Function onTap;
-  final Function onLongPress;
+class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
+  final Future<List<T?>> future;
+  final void Function(T?) onTap;
+  final void Function(T?) onLongPress;
 
   const DatabaseListView(
       {Key? key,
@@ -20,7 +20,7 @@ class DatabaseListView<T extends DatabaseProvider> extends StatelessWidget {
     return FutureBuilder(
       future: future,
       builder: (BuildContext context,
-          AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
+          AsyncSnapshot<List<T?>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
             showDialog(

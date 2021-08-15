@@ -1,4 +1,5 @@
 import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
+import 'package:conversation_deck/Database/TopicDatabase.dart';
 import 'Topic.dart';
 
 class Deck extends DatabaseItem {
@@ -16,15 +17,24 @@ class Deck extends DatabaseItem {
     _topics = topics.toList();
   }
 
-  Deck.parse(Map<String, dynamic> obj) : super.parse(obj) {
-    _topics = obj["topics"];
-  }
+  Deck.parse(Map<String, dynamic> obj) : super.parse(obj);
 
   @override
   Map<String, dynamic> toMap() {
     var map = super.toMap();
     map.addAll({"topics": _topics.map((topic) => topic.id).join(separator)});
     return map;
+  }
+
+  @override
+  Future init(Map<String, dynamic> obj) async {
+    var datas = await TopicDatabase()
+        .getAts(obj["topics"].toString().split(Deck.separator).cast<int>());
+    datas.forEach((data) {
+      if (data != null) {
+        _topics.add(data);
+      }
+    });
   }
 
   void shuffle() {

@@ -25,7 +25,7 @@ class TopicForm extends StatefulWidget {
 }
 
 class _TopicFormState extends State<TopicForm> {
-  late Future<List<Map<String, dynamic>>?> _future;
+  late Future<List<Time?>> _future;
   final bool isUpdate;
   final TopicInfo info;
   String title;
@@ -40,7 +40,7 @@ class _TopicFormState extends State<TopicForm> {
     if (!isUpdate) {
       TimeDatabase()
           .getAt(1)
-          .then((time) => {info.when = Time.parse(time!)});
+          .then((time) => {info.when = time!});
     }
   }
 
@@ -52,7 +52,7 @@ class _TopicFormState extends State<TopicForm> {
       child: FutureBuilder(
         future: _future,
         builder: (BuildContext context,
-            AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
+            AsyncSnapshot<List<Time?>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           }
@@ -72,13 +72,13 @@ class _TopicFormState extends State<TopicForm> {
                   onChanged: (Time? newValue) {
                     setState(() {
                       info.when =
-                          newValue ?? Time.parse(snapshot.data!.first);
+                          (newValue ?? snapshot.data!.first)!;
                     });
                   },
                   items: snapshot.data!.map((data) {
-                    var time = (data["id"] == info.when.id)
+                    var time = (data!.id == info.when.id)
                         ? info.when
-                        : Time.parse(data);
+                        : data;
                     return DropdownMenuItem<Time>(
                       child: Text(time.name),
                       value: time,
