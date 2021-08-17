@@ -37,11 +37,6 @@ class _TopicFormState extends State<TopicForm> {
   void initState() {
     super.initState();
     _future = TimeDatabase().all();
-    if (!isUpdate) {
-      TimeDatabase()
-          .getAt(1)
-          .then((time) => {info.when = time!});
-    }
   }
 
   @override
@@ -51,10 +46,12 @@ class _TopicFormState extends State<TopicForm> {
       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: FutureBuilder(
         future: _future,
-        builder: (BuildContext context,
-            AsyncSnapshot<List<Time?>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<Time?>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
+          }
+          if (!isUpdate) {
+            info.when = snapshot.data!.first!;
           }
           return SingleChildScrollView(
             child: Column(
@@ -71,14 +68,11 @@ class _TopicFormState extends State<TopicForm> {
                   value: info.when,
                   onChanged: (Time? newValue) {
                     setState(() {
-                      info.when =
-                          (newValue ?? snapshot.data!.first)!;
+                      info.when = (newValue ?? snapshot.data!.first)!;
                     });
                   },
                   items: snapshot.data!.map((data) {
-                    var time = (data!.id == info.when.id)
-                        ? info.when
-                        : data;
+                    var time = (data!.id == info.when.id) ? info.when : data;
                     return DropdownMenuItem<Time>(
                       child: Text(time.name),
                       value: time,
