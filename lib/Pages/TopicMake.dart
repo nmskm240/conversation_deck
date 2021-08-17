@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 
 class TopicMake extends StatelessWidget {
   final Topic? topic;
+  late final TopicForm? form;
 
-  TopicMake({this.topic});
+  TopicMake({this.topic}) {
+    form = TopicForm(topic: topic);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +17,16 @@ class TopicMake extends StatelessWidget {
       appBar: AppBar(
         title: Text('カード編集'),
         leading: BackButton(),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: () {
+              form!.onComplete();
+            },
+          ),
+        ],
       ),
-      body: TopicForm(topic),
+      body: form,
     );
   }
 }

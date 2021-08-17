@@ -1,7 +1,21 @@
 @startuml Conversation deck cards
 package Controllers
 {
+    package "States "
+    {
+        class TopicFormState
+        {
+            -_key:GlobalKey<FormState>
+            +topic:Topic?
+            +onComplete():void
+        }
+    }
     class TopicForm
+    {
+        +topic:Topic?
+        +state:TopicFormState
+        +onComplete():void
+    }
 }
 
 package Database
@@ -112,6 +126,7 @@ package Pages
     class Root
     class TopicList
     class TopicMake
+    class Setting
 }
 package Views
 {
@@ -126,21 +141,6 @@ package Views
         +items:List<FooterItem>
         +onTap:Function(int)
     }
-    class LabeledDropdown
-    {
-        +label:String
-        +value:T
-        +onChanged:Function
-        +items:List<DropdownMenuItem<T>>?
-    }
-    class LabeledTextField
-    {
-        +text:String
-        +label:String
-        +hing:String
-        +onChanged:Function
-        +type:TextInputType
-    }
 }
 
 DatabaseProvider --> DatabaseItem
@@ -150,9 +150,10 @@ Root --> Footer
 Home --> DatabaseListView
 TopicList --> DatabaseListView
 TopicMake --> TopicForm
-TopicForm --> Topic : create
+TopicForm --> TopicDatabase : insert
 Builder -left-> DatabaseItem : create
 TopicList --> TopicListState : use
+TopicForm --> TopicFormState : use
 
 DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
@@ -163,8 +164,6 @@ DecksTopic --|> TopicListState
 
 DeckDatabase *-up- Deck
 TopicDatabase *-up- Topic
-TopicForm "1" *-- "*" LabeledDropdown
-TopicForm "1" *-- "*" LabeledTextField
 Footer "1" *-- "*" FooterItem
 DatabaseListTile "1" *-- "1" DatabaseItem
 
