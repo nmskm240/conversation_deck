@@ -33,6 +33,16 @@ class _TopicFormState extends State<TopicForm> {
   _TopicFormState(
       {required this.title, required this.info, this.isUpdate = false});
 
+  void complete() async {
+    var topic = new Topic(name: title, info: info);
+    if (isUpdate) {
+      await TopicDatabase().update(topic);
+    } else {
+      await TopicDatabase().insert(topic);
+    }
+    Navigator.pop(context);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -143,13 +153,7 @@ class _TopicFormState extends State<TopicForm> {
                         },
                       );
                     } else {
-                      var topic = new Topic(name: title, info: info);
-                      if (isUpdate) {
-                        TopicDatabase().update(topic);
-                      } else {
-                        TopicDatabase().insert(topic);
-                      }
-                      Navigator.pop(context);
+                      complete();
                     }
                   },
                 ),

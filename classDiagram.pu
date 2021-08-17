@@ -113,6 +113,23 @@ package "Models "
 }
 package Pages
 {
+    package States
+    {
+        abstract TopicListState
+        {
+            +appBar:AppBar
+            +future:Future<List<Topic?>>
+            +{abstract}onFloatingButtonPressed():void
+            +{abstract}onListTileTap():void
+            +{abstract}onListTileLongPress():void
+            +{abstract}update():void
+        }
+        class TopicAll
+        class DecksTopic
+        {
+            +deck:Deck
+        }
+    }
     class DeckMake
     class Home
     class Root
@@ -160,6 +177,7 @@ TopicList --> DatabaseListView
 TopicMake --> TopicForm
 TopicForm --> Topic : create
 Builder -left-> DatabaseItem : create
+TopicList --> TopicListState : use
 
 DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
@@ -169,6 +187,8 @@ Deck --|> DatabaseItem
 Topic --|> DatabaseItem
 TopicInfo --|> DatabaseItem
 Time --|> DatabaseItem
+TopicAll --|> TopicListState
+DecksTopic --|> TopicListState
 
 Topic "1" *-right-> "1" TopicInfo
 
