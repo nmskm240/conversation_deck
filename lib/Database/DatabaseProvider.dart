@@ -1,15 +1,17 @@
+import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
 import 'package:conversation_deck/Database/Utils/Builder.dart';
-
-import 'Models/DatabaseItem.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 abstract class DatabaseProvider<T extends DatabaseItem> {
-  late final String table;
-  late final int version;
+  final String table;
+  final int version;
 
   Database? _database;
+
+  DatabaseProvider({required this.table, required this.version});
+
   Future<Database?> get database async {
     if (_database == null) _database = await _init();
     return _database;

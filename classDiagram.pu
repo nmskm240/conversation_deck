@@ -11,11 +11,9 @@ package Database
         abstract DatabaseItem
         {
             -_id:int
-            -_name:String
-            -_detail:String
+            +name:String
+            +detail:String
             +<<property>>id:int{get only}
-            +<<property>>name:String{get only}
-            +<<property>>detail:String{get only}
             +parse(data:Map<String, dynamic>):DatabaseItem
             +toMap():Map<String, dyanmic>
             +{abstract}init(obj:Map<String,dynamic>):Future
@@ -80,6 +78,7 @@ package "Models "
     class Deck
     {
         -_topics:List<Topic>
+        +{static}separator:String
         +<<property>>topics:Iterable<Topic>
         +draw(count:int):List<Topic>
         +shuffle():void

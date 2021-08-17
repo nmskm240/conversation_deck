@@ -9,8 +9,7 @@ class Deck extends DatabaseItem {
   Iterable<Topic> get topics => _topics;
 
   Deck(
-      {int id = 0,
-      required String name,
+      {required String name,
       String detail = "",
       required Iterable<Topic> topics})
       : super(name: name, detail: detail) {

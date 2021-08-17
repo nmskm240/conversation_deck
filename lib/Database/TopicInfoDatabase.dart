@@ -1,13 +1,10 @@
+import 'package:conversation_deck/Database/DatabaseProvider.dart';
 import 'package:conversation_deck/Models/TopicInfo.dart';
-import 'DatabaseProvider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TopicInfoDatabase extends DatabaseProvider<TopicInfo> {
   static final _instance = TopicInfoDatabase._constructor();
-  TopicInfoDatabase._constructor() {
-    table = "topic_info";
-    version = 1;
-  }
+  TopicInfoDatabase._constructor() : super(table: "topic_info", version: 1);
 
   factory TopicInfoDatabase() => _instance;
 

@@ -1,10 +1,10 @@
 import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
 import 'package:conversation_deck/Database/TopicInfoDatabase.dart';
-import 'TopicInfo.dart';
+import 'package:conversation_deck/Models/TopicInfo.dart';
 
 class Topic extends DatabaseItem {
-  var _useCount = 0;
-  late TopicInfo _info;
+  int _useCount = 0;
+  TopicInfo _info = new TopicInfo();
   DateTime _timestamp = DateTime.now();
 
   int get useCount => _useCount;
@@ -12,13 +12,13 @@ class Topic extends DatabaseItem {
   DateTime get timestamp => _timestamp;
 
   Topic({required String name, String detail = "", required TopicInfo info})
-      : super(name: name) {
+      : super(name: name, detail: detail) {
     _info = info;
   }
 
-  Topic.parse(Map<String, dynamic> json) : super.parse(json) {
-    _useCount = json["count"];
-    _timestamp = DateTime.tryParse(json["time"]) ?? DateTime.now();
+  Topic.parse(Map<String, dynamic> obj) : super.parse(obj) {
+    _useCount = obj["count"];
+    _timestamp = DateTime.tryParse(obj["time"]) ?? DateTime.now();
   }
 
   @override

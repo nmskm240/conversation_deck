@@ -1,13 +1,10 @@
+import 'package:conversation_deck/Database/DatabaseProvider.dart';
 import 'package:conversation_deck/Models/Deck.dart';
-import 'DatabaseProvider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DeckDatabase extends DatabaseProvider<Deck> {
   static final DeckDatabase _instance = DeckDatabase._constructor();
-  DeckDatabase._constructor() {
-    version = 1;
-    table = "deck";
-  }
+  DeckDatabase._constructor() : super(table: "deck", version: 1);
 
   factory DeckDatabase() => _instance;
 
@@ -20,12 +17,12 @@ class DeckDatabase extends DatabaseProvider<Deck> {
           topics TEXT
         )
         """);
-    await db.insert(table, new Deck(id: 0, name: "今日", topics: []).toMap());
-    await db.insert(table, new Deck(id: 1, name: "昨日", topics: []).toMap());
-    await db.insert(table, new Deck(id: 2, name: "今週", topics: []).toMap());
-    await db.insert(table, new Deck(id: 3, name: "先週", topics: []).toMap());
-    await db.insert(table, new Deck(id: 4, name: "今月", topics: []).toMap());
-    await db.insert(table, new Deck(id: 5, name: "先月", topics: []).toMap());
-    await db.insert(table, new Deck(id: 6, name: "今年", topics: []).toMap());
+    await db.insert(table, new Deck(name: "今日", topics: []).toMap());
+    await db.insert(table, new Deck(name: "昨日", topics: []).toMap());
+    await db.insert(table, new Deck(name: "今週", topics: []).toMap());
+    await db.insert(table, new Deck(name: "先週", topics: []).toMap());
+    await db.insert(table, new Deck(name: "今月", topics: []).toMap());
+    await db.insert(table, new Deck(name: "先月", topics: []).toMap());
+    await db.insert(table, new Deck(name: "今年", topics: []).toMap());
   }
 }

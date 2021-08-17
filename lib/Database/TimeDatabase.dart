@@ -1,13 +1,10 @@
+import 'package:conversation_deck/Database/DatabaseProvider.dart';
 import 'package:conversation_deck/Models/Time.dart';
 import 'package:sqflite/sqflite.dart';
-import 'DatabaseProvider.dart';
 
 class TimeDatabase extends DatabaseProvider<Time> {
   static final TimeDatabase _instance = TimeDatabase._constructor();
-  TimeDatabase._constructor() {
-    version = 1;
-    table = "time";
-  }
+  TimeDatabase._constructor() : super(table: "time", version: 1);
 
   factory TimeDatabase() => _instance;
 
@@ -19,12 +16,12 @@ class TimeDatabase extends DatabaseProvider<Time> {
           detail TEXT
         )
         """);
-    await db.insert(table, new Time(id: 1, name: "今日").toMap());
-    await db.insert(table, new Time(id: 2, name: "昨日").toMap());
-    await db.insert(table, new Time(id: 3, name: "今週").toMap());
-    await db.insert(table, new Time(id: 4, name: "先週").toMap());
-    await db.insert(table, new Time(id: 5, name: "今月").toMap());
-    await db.insert(table, new Time(id: 6, name: "先月").toMap());
-    await db.insert(table, new Time(id: 7, name: "今年").toMap());
+    await db.insert(table, new Time(name: "今日").toMap());
+    await db.insert(table, new Time(name: "昨日").toMap());
+    await db.insert(table, new Time(name: "今週").toMap());
+    await db.insert(table, new Time(name: "先週").toMap());
+    await db.insert(table, new Time(name: "今月").toMap());
+    await db.insert(table, new Time(name: "先月").toMap());
+    await db.insert(table, new Time(name: "今年").toMap());
   }
 }

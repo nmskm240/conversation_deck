@@ -1,27 +1,27 @@
 import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
 import 'package:conversation_deck/Database/TimeDatabase.dart';
-import 'Time.dart';
+import 'package:conversation_deck/Models/Time.dart';
 
 class TopicInfo extends DatabaseItem {
-  late Time when;
-  var where = "";
-  var who = "";
-  var what = "";
-  var why = "";
-  var how = "";
-  var whatUp = "";
-  var specifically = "";
+  Time when = new Time();
+  String where = "";
+  String who = "";
+  String what = "";
+  String why = "";
+  String how = "";
+  String whatUp = "";
+  String specifically = "";
 
   TopicInfo();
 
-  TopicInfo.parse(Map<String, dynamic> json) : super.parse(json) {
-    where = json['_where'];
-    who = json['who'];
-    what = json['what'];
-    why = json['why'];
-    how = json['how'];
-    whatUp = json['whatUp'];
-    specifically = json['specifically'];
+  TopicInfo.parse(Map<String, dynamic> obj) : super.parse(obj) {
+    where = obj['_where'];
+    who = obj['who'];
+    what = obj['what'];
+    why = obj['why'];
+    how = obj['how'];
+    whatUp = obj['whatUp'];
+    specifically = obj['specifically'];
   }
 
   @override
