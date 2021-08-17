@@ -1,5 +1,4 @@
 import 'package:conversation_deck/Database/DatabaseProvider.dart';
-import 'package:conversation_deck/Database/TopicInfoDatabase.dart';
 import 'package:conversation_deck/Models/Topic.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,32 +14,11 @@ class TopicDatabase extends DatabaseProvider<Topic> {
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           name TEXT, 
           detail TEXT, 
-          count INTEGER, 
-          time TEXT
+          _when TEXT,
+          _where TEXT,
+          who TEXT,
+          whatUp TEXT,
+          count INTEGER
         )""");
-  }
-
-  @override
-  Future reset() async {
-    await TopicInfoDatabase().reset();
-    return await super.reset();
-  }
-
-  @override
-  Future<int?> insert(Topic data) async {
-    await TopicInfoDatabase().insert(data.info);
-    return await super.insert(data);
-  }
-
-  @override
-  Future<int?> update(Topic data) async {
-    await TopicInfoDatabase().update(data.info);
-    return await super.update(data);
-  }
-
-  @override
-  Future<int?> deleteAt(int id) async {
-    await TopicInfoDatabase().deleteAt(id);
-    return await super.deleteAt(id);
   }
 }

@@ -50,20 +50,10 @@ package Database
         -_instance:DeckDatabase
         -_constructor():DeckDatabase
     }
-    class TimeDatabase
-    {
-        -_instance:TimeDatabase
-        -_constructor():TimeDatabase
-    }
     class TopicDatabase
     {
         -_instance:TopicDatabase
         -_constructor():TopicDatabase
-    }
-    class TopicInfoDatabase
-    {
-        -_instance:TopicInfoDatabase
-        -_constructor():TopicInfoDatabase
     }
 }
 
@@ -87,27 +77,15 @@ package "Models "
     {
         +route:Widget
     }
-    class Time
     class Topic
     {
-        -_useCount:int
-        -_info:TopicInfo
-        -_timestamp:DateTime
-        +<<property>>useCount:int{get only}
-        +<<property>>info:TopicInfo{get only}
-        +<<property>>timestamp:DateTime{get only}
-        +use():void
-    }
-    class TopicInfo
-    {
-        +when:Time
+        +when:DateTime
         +where:String
         +who:String
-        +what:String
-        +why:String
-        +how:String
         +whatUp:String
-        +specifically:String
+        -_useCount:int
+        +<<property>>useCount:int{get only}
+        +use():void
     }
 }
 package Pages
@@ -168,8 +146,6 @@ package Views
 DatabaseProvider --> DatabaseItem
 DatabaseProvider --> Builder : use
 Deck --> TopicDatabase : use
-Topic --> TopicInfoDatabase : use
-TopicInfo --> TimeDatabase : use
 Root --> Footer
 Home --> DatabaseListView
 TopicList --> DatabaseListView
@@ -180,22 +156,13 @@ TopicList --> TopicListState : use
 
 DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
-TopicInfoDatabase --|> DatabaseProvider
-TimeDatabase --|> DatabaseProvider
 Deck --|> DatabaseItem
 Topic --|> DatabaseItem
-TopicInfo --|> DatabaseItem
-Time --|> DatabaseItem
 TopicAll --|> TopicListState
 DecksTopic --|> TopicListState
 
-Topic "1" *-right-> "1" TopicInfo
-
 DeckDatabase *-up- Deck
 TopicDatabase *-up- Topic
-TopicInfoDatabase *-up- TopicInfo
-TimeDatabase *-up- Time
-TopicInfo "1" *-right- "1" Time
 TopicForm "1" *-- "*" LabeledDropdown
 TopicForm "1" *-- "*" LabeledTextField
 Footer "1" *-- "*" FooterItem

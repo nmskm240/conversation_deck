@@ -1,41 +1,41 @@
 import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
-import 'package:conversation_deck/Database/TopicInfoDatabase.dart';
-import 'package:conversation_deck/Models/TopicInfo.dart';
 
 class Topic extends DatabaseItem {
+  DateTime when = DateTime.now();
+  String where = "";
+  String who = "";
+  String whatUp = "";
   int _useCount = 0;
-  TopicInfo _info = new TopicInfo();
-  DateTime _timestamp = DateTime.now();
 
   int get useCount => _useCount;
-  TopicInfo get info => _info;
-  DateTime get timestamp => _timestamp;
 
-  Topic({required String name, String detail = "", required TopicInfo info})
-      : super(name: name, detail: detail) {
-    _info = info;
-  }
+  Topic({required String name, String detail = ""})
+      : super(name: name, detail: detail);
 
   Topic.parse(Map<String, dynamic> obj) : super.parse(obj) {
+    when = DateTime.tryParse(obj["_when"]) ?? DateTime.now();
+    where = obj["_where"];
+    who = obj["who"];
+    whatUp = obj["whatUp"];
     _useCount = obj["count"];
-    _timestamp = DateTime.tryParse(obj["time"]) ?? DateTime.now();
   }
 
   @override
   Map<String, dynamic> toMap() {
     var map = super.toMap();
-    map.addAll({"count": _useCount, "time": _timestamp.toString()});
+    map.addAll({
+      "_when": when.toString(),
+      "_where": where,
+      "who": who,
+      "whatUp": whatUp,
+      "count": _useCount
+    });
     return map;
   }
 
   @override
-  Future init(Map<String, dynamic> obj) async {
-    var data = await TopicInfoDatabase().getAt(id);
-    if (data != null) {
-      _info = data;
-    } else {
-      throw Error();
-    }
+  Future init(Map<String, dynamic> obj) {
+    return Future(() {});
   }
 
   void use() {
