@@ -154,6 +154,8 @@ TopicForm --> TopicDatabase : insert
 Builder -left-> DatabaseItem : create
 TopicList --> TopicListState : use
 TopicForm --> TopicFormState : use
+Setting --> DeckDatabase : reset
+Setting --> TopicDatabase : reset
 
 DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
