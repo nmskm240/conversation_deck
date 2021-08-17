@@ -23,6 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.17.0
+
+  flutter_localizations:
+    sdk: flutter
   
   sqflite: any
   path_provider: any

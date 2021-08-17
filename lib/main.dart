@@ -1,4 +1,5 @@
-import 'Pages/Root.dart';
+import 'package:conversation_deck/Pages/Root.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,6 +16,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Root(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale("en"),
+        const Locale("ja"),
+      ],
     );
   }
 }
