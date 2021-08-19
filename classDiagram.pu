@@ -13,18 +13,16 @@ package Controllers
             +{abstract}onSaved():void
             +{abstract}createFormBody():void
         }
+        class DeckFormState
         class TopicFormState
-        {
-            -_key:GlobalKey<FormState>
-            +topic:Topic?
-            +onComplete():void
-        }
+
     }
     class DatabaseForm<T extends DatabaseItem>
     {
         +state:DatabaseFormState
         +onComplete():void
     }
+    class DeckForm
     class TopicForm
 }
 
@@ -165,8 +163,10 @@ Builder -left-> DatabaseItem : create
 TopicList --> TopicListState : use
 DatabaseForm --> DatabaseFormState : use
 TopicForm --> TopicFormState : use
+DeckForm --> DeckFormState : use
 Setting --> DeckDatabase : reset
 Setting --> TopicDatabase : reset
+DeckMake --> DeckForm
 
 DeckDatabase --|> DatabaseProvider
 TopicDatabase --|> DatabaseProvider
@@ -176,6 +176,8 @@ TopicAll --|> TopicListState
 DecksTopic --|> TopicListState
 TopicForm --|> DatabaseForm
 TopicFormState --|> DatabaseFormState
+DeckForm --|> DatabaseForm
+DeckFormState --|> DatabaseFormState
 
 DeckDatabase *-up- Deck
 TopicDatabase *-up- Topic

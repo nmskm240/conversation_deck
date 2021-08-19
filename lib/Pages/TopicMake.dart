@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class TopicMake extends StatelessWidget {
   final Topic? topic;
-  late final TopicForm? form;
+  late final TopicForm form;
 
   TopicMake({this.topic}) {
     form = TopicForm(topic: topic);
@@ -21,7 +21,7 @@ class TopicMake extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.check),
             onPressed: () {
-              form!.onComplete();
+              form.onComplete();
             },
           ),
         ],
