@@ -144,6 +144,11 @@ package Views
         +onTap:void Function(T?)
         +onLongPress:void Function(T?)
     }
+    class DatePickerFormField
+    {
+        +currentDate:DateTime
+        +onSaved:void Function(DateTime?)
+    }
     class Footer
     {
         +items:List<FooterItem>
@@ -183,6 +188,7 @@ DeckDatabase *-up- Deck
 TopicDatabase *-up- Topic
 Footer "1" *-- "*" FooterItem
 DatabaseListTile "1" *-- "1" DatabaseItem
+TopicFormState *-- DatePickerFormField
 
 Deck "1" o-right- "*" Topic
 DatabaseListView "1" o-- "*" DatabaseListTile
