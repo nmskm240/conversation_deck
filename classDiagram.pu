@@ -3,6 +3,16 @@ package Controllers
 {
     package "States "
     {
+        class DatabaseFormState<T extends DatabaseItem>
+        {
+            +key:GlobalKey<FormState>
+            +formBody:List<Widget>
+            +itme:T?
+            +onComplete():void
+            +{abstract}itemInit():void
+            +{abstract}onSaved():void
+            +{abstract}createFormBody():void
+        }
         class TopicFormState
         {
             -_key:GlobalKey<FormState>
@@ -10,12 +20,12 @@ package Controllers
             +onComplete():void
         }
     }
-    class TopicForm
+    class DatabaseForm<T extends DatabaseItem>
     {
-        +topic:Topic?
-        +state:TopicFormState
+        +state:DatabaseFormState
         +onComplete():void
     }
+    class TopicForm
 }
 
 package Database
@@ -150,9 +160,10 @@ Root --> Footer
 Home --> DatabaseListView
 TopicList --> DatabaseListView
 TopicMake --> TopicForm
-TopicForm --> TopicDatabase : insert
+TopicForm --> TopicDatabase : insert or update
 Builder -left-> DatabaseItem : create
 TopicList --> TopicListState : use
+DatabaseForm --> DatabaseFormState : use
 TopicForm --> TopicFormState : use
 Setting --> DeckDatabase : reset
 Setting --> TopicDatabase : reset
@@ -163,6 +174,8 @@ Deck --|> DatabaseItem
 Topic --|> DatabaseItem
 TopicAll --|> TopicListState
 DecksTopic --|> TopicListState
+TopicForm --|> DatabaseForm
+TopicFormState --|> DatabaseFormState
 
 DeckDatabase *-up- Deck
 TopicDatabase *-up- Topic
