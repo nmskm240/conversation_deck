@@ -34,9 +34,7 @@ class Topic extends DatabaseItem {
   }
 
   @override
-  Future init(Map<String, dynamic> obj) {
-    return Future(() {});
-  }
+  Future init(Map<String, dynamic> obj) async {}
 
   void use() {
     _useCount++;

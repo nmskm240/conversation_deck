@@ -26,10 +26,10 @@ class TopicAll extends TopicListState {
   }
 
   @override
-  void onListTileLongPress(Topic? topic) {}
+  void onListTileLongPress(Topic topic) {}
 
   @override
-  void onListTileTap(Topic? topic) async {
+  void onListTileTap(Topic topic) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
@@ -48,7 +48,7 @@ class TopicAll extends TopicListState {
   }
 
   @override
-  void onDismissed(Topic? topic) {
-    TopicDatabase().deleteAt(topic!.id);
+  void onDismissed(Topic topic) {
+    TopicDatabase().deleteAt(topic.id);
   }
 }

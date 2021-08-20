@@ -25,14 +25,16 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
 
   Future onCreate(Database db, int version);
 
-  Future<List<T?>> all() async {
+  Future<List<T>> all() async {
     var db = await database;
     var datas = await db?.query(table);
     List<T> items = [];
     for (var data in datas!) {
       var item = Builder().make<T>(data);
-      await item!.init(data);
-      items.add(item);
+      if (item != null) {
+        await item.init(data);
+        items.add(item);
+      }
     }
     return items;
   }
@@ -45,20 +47,20 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
     }
   }
 
-  Future<int?> insert(T data) async {
+  Future insert(T data) async {
     var db = await database;
-    return await db?.insert(table, data.toMap());
+    await db?.insert(table, data.toMap());
   }
 
-  Future<int?> update(T data) async {
+  Future update(T data) async {
     var db = await database;
-    return await db
+    await db
         ?.update(table, data.toMap(), where: 'id = ?', whereArgs: [data.id]);
   }
 
-  Future<int?> deleteAt(int id) async {
+  Future deleteAt(int id) async {
     var db = await database;
-    return await db?.delete(table, where: 'id = ?', whereArgs: [id]);
+    await db?.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<T?> getAt(int id) async {
@@ -73,15 +75,17 @@ abstract class DatabaseProvider<T extends DatabaseItem> {
     return null;
   }
 
-  Future<List<T?>> getAts(Iterable<int> ids) async {
+  Future<List<T>> getAts(Iterable<int> ids) async {
     var db = await database;
     var datas = await db?.query(table,
         where: "id IN (${ids.cast<String>().join(', ')})");
     List<T> items = [];
     for (var data in datas!) {
       var item = Builder().make<T>(data);
-      await item!.init(data);
-      items.add(item);
+      if(item != null) {
+        await item.init(data);
+        items.add(item);
+      }
     }
     return items;
   }

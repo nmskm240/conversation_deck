@@ -29,11 +29,7 @@ class Deck extends DatabaseItem {
   Future init(Map<String, dynamic> obj) async {
     var datas = await TopicDatabase()
         .getAts(obj["topics"].toString().split(Deck.separator).cast<int>());
-    datas.forEach((data) {
-      if (data != null) {
-        _topics.add(data);
-      }
-    });
+    datas.forEach((data) => _topics.add(data));
   }
 
   void shuffle() {

@@ -58,14 +58,14 @@ package Database
         -_database:Database?
         +<<property>>database:Future<Database?>{get only}
         -<<async>>_init():Future<Database>
-        +<<async>>all():Future<List<T?>>
+        +<<async>>all():Future<List<T>>
         +<<async>>reset():Future
         +{abstract}<<async>>onCreate(db:Database,version:int):Future
-        +<<async>>insert(data:T):Future<int?>
-        +<<async>>update(data:T):Future<int?>
-        +<<async>>deleteAt(id:int):Future<int?>
+        +<<async>>insert(data:T):Future
+        +<<async>>update(data:T):Future
+        +<<async>>deleteAt(id:int):Future
         +<<async>>getAt(id:int):Future<T?>
-        +<<async>>getAts(ids:Iterable<int>):Future<List<T?>>
+        +<<async>>getAts(ids:Iterable<int>):Future<List<T>>
     }
     class DeckDatabase
     {
@@ -83,10 +83,10 @@ package "Models "
 {
     class DatabaseListTile<T extends DatabaseItem>
     {
-        +data:T?
-        +onTap:void Function(T?)
-        +onLongPress:void Function(T?)
-        +onDismissed:void Function(T?)
+        +data:T
+        +onTap:void Function(T)
+        +onLongPress:void Function(T)
+        +onDismissed:void Function(T)
     }
     class Deck
     {
@@ -119,11 +119,11 @@ package Pages
         abstract TopicListState
         {
             +appBar:AppBar
-            +future:Future<List<Topic?>>
+            +future:Future<List<Topic>>
             +{abstract}onFloatingButtonPressed():void
-            +{abstract}onListTileTap():void
-            +{abstract}onListTileLongPress():void
-            +{abstract}onDismissed():void
+            +{abstract}onListTileTap(topic:Topic):void
+            +{abstract}onListTileLongPress(topic:Topic):void
+            +{abstract}onDismissed(topic:Topic):void
             +{abstract}update():void
         }
         class TopicAll
@@ -143,10 +143,10 @@ package Views
 {
     class DatabaseListView
     {
-        +future:Future<List<T?>>
-        +onTap:void Function(T?)
-        +onLongPress:void Function(T?)
-        +onDismissed:void Function(T?)
+        +future:Future<List<T>>
+        +onTap:void Function(T)
+        +onLongPress:void Function(T)
+        +onDismissed:void Function(T)
     }
     class DatePickerFormField
     {

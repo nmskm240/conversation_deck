@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
-  final Future<List<T?>> future;
-  final void Function(T?) onTap;
-  final void Function(T?) onLongPress;
-  final void Function(T?) onDismissed;
+  final Future<List<T>> future;
+  final void Function(T) onTap;
+  final void Function(T) onLongPress;
+  final void Function(T) onDismissed;
 
   const DatabaseListView(
       {Key? key,
@@ -21,8 +21,7 @@ class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: future,
-      builder: (BuildContext context,
-          AsyncSnapshot<List<T?>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<T>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
             showDialog(
@@ -49,8 +48,9 @@ class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
             return ListView.builder(
               itemCount: datas!.length,
               itemBuilder: (BuildContext context, int index) {
+                var data = datas[index];
                 return DatabaseListTile(
-                  data: datas[index],
+                  data: data,
                   onTap: onTap,
                   onLongPress: onLongPress,
                   onDismissed: onDismissed,

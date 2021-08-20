@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 
 abstract class TopicListState extends State<TopicList> {
   final AppBar appBar;
-  Future<List<Topic?>> future;
+  Future<List<Topic>> future;
 
   TopicListState({required this.appBar, required this.future});
 
   @protected
   void onFloatingButtonPressed();
   @protected
-  void onListTileTap(Topic? topic);
+  void onListTileTap(Topic topic);
   @protected
-  void onListTileLongPress(Topic? topic);
+  void onListTileLongPress(Topic topic);
   @protected
-  void onDismissed(Topic? topic);
+  void onDismissed(Topic topic);
   @protected
   void update();
 
@@ -32,9 +32,9 @@ abstract class TopicListState extends State<TopicList> {
         alignment: Alignment.center,
         child: DatabaseListView(
           future: future,
-          onTap: (Topic? topic) => onListTileTap(topic),
-          onLongPress: (Topic? topic) => onListTileLongPress(topic),
-          onDismissed: (Topic? topic) => onDismissed(topic),
+          onTap: (Topic topic) => onListTileTap(topic),
+          onLongPress: (Topic topic) => onListTileLongPress(topic),
+          onDismissed: (Topic topic) => onDismissed(topic),
         ),
       ),
     );

@@ -23,10 +23,10 @@ class DecksTopic extends TopicListState {
   }
 
   @override
-  void onListTileLongPress(Topic? topic) {}
+  void onListTileLongPress(Topic topic) {}
 
   @override
-  void onListTileTap(Topic? topic) {
+  void onListTileTap(Topic topic) {
     // TODO: 話題の詳細を表示する
   }
 
@@ -38,10 +38,8 @@ class DecksTopic extends TopicListState {
   }
 
   @override
-  void onDismissed(Topic? topic) {
-    if (topic != null) {
-      deck.remove(topic);
-      DeckDatabase().update(deck);
-    }
+  void onDismissed(Topic topic) {
+    deck.remove(topic);
+    DeckDatabase().update(deck);
   }
 }
