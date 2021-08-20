@@ -86,6 +86,7 @@ package "Models "
         +data:T?
         +onTap:void Function(T?)
         +onLongPress:void Function(T?)
+        +onDismissed:void Function(T?)
     }
     class Deck
     {
@@ -94,6 +95,7 @@ package "Models "
         +<<property>>topics:Iterable<Topic>
         +draw(count:int):List<Topic>
         +shuffle():void
+        +remove(topic:Topic):void
     }
     class FooterItem
     {
@@ -121,6 +123,7 @@ package Pages
             +{abstract}onFloatingButtonPressed():void
             +{abstract}onListTileTap():void
             +{abstract}onListTileLongPress():void
+            +{abstract}onDismissed():void
             +{abstract}update():void
         }
         class TopicAll
@@ -143,6 +146,7 @@ package Views
         +future:Future<List<T?>>
         +onTap:void Function(T?)
         +onLongPress:void Function(T?)
+        +onDismissed:void Function(T?)
     }
     class DatePickerFormField
     {

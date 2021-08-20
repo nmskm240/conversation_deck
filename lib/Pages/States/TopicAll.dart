@@ -26,9 +26,7 @@ class TopicAll extends TopicListState {
   }
 
   @override
-  void onListTileLongPress(Topic? topic) {
-    // TODO: データベースから話題を削除する
-  }
+  void onListTileLongPress(Topic? topic) {}
 
   @override
   void onListTileTap(Topic? topic) async {
@@ -47,5 +45,10 @@ class TopicAll extends TopicListState {
     setState(() {
       future = TopicDatabase().all();
     });
+  }
+
+  @override
+  void onDismissed(Topic? topic) {
+    TopicDatabase().deleteAt(topic!.id);
   }
 }

@@ -7,12 +7,14 @@ class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
   final Future<List<T?>> future;
   final void Function(T?) onTap;
   final void Function(T?) onLongPress;
+  final void Function(T?) onDismissed;
 
   const DatabaseListView(
       {Key? key,
       required this.future,
       required this.onTap,
-      required this.onLongPress})
+      required this.onLongPress,
+      required this.onDismissed})
       : super(key: key);
 
   @override
@@ -51,6 +53,7 @@ class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
                   data: datas[index],
                   onTap: onTap,
                   onLongPress: onLongPress,
+                  onDismissed: onDismissed,
                 );
               },
             );

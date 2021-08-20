@@ -43,6 +43,9 @@ class Home extends StatelessWidget {
           onLongPress: (Deck? data) {
             //TODO: デッキを削除する処理
           },
+          onDismissed: (Deck? deck) {
+            DeckDatabase().deleteAt(deck!.id);
+          },
         ),
       ),
     );

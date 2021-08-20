@@ -45,4 +45,8 @@ class Deck extends DatabaseItem {
     _topics.removeRange(0, count);
     return range.toList();
   }
+
+  void remove(Topic topic) {
+    _topics.remove(topic);
+  }
 }

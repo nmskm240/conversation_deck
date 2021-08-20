@@ -16,6 +16,8 @@ abstract class TopicListState extends State<TopicList> {
   @protected
   void onListTileLongPress(Topic? topic);
   @protected
+  void onDismissed(Topic? topic);
+  @protected
   void update();
 
   @override
@@ -32,6 +34,7 @@ abstract class TopicListState extends State<TopicList> {
           future: future,
           onTap: (Topic? topic) => onListTileTap(topic),
           onLongPress: (Topic? topic) => onListTileLongPress(topic),
+          onDismissed: (Topic? topic) => onDismissed(topic),
         ),
       ),
     );

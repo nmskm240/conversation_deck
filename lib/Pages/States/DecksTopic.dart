@@ -1,3 +1,4 @@
+import 'package:conversation_deck/Database/DeckDatabase.dart';
 import 'package:conversation_deck/Database/TopicDatabase.dart';
 import 'package:conversation_deck/Models/Deck.dart';
 import 'package:conversation_deck/Models/Topic.dart';
@@ -22,9 +23,7 @@ class DecksTopic extends TopicListState {
   }
 
   @override
-  void onListTileLongPress(Topic? topic) {
-    // TODO: デッキから話題を削除する
-  }
+  void onListTileLongPress(Topic? topic) {}
 
   @override
   void onListTileTap(Topic? topic) {
@@ -36,5 +35,13 @@ class DecksTopic extends TopicListState {
     setState(() {
       future = TopicDatabase().getAts(deck.topics.map((topic) => topic.id));
     });
+  }
+
+  @override
+  void onDismissed(Topic? topic) {
+    if (topic != null) {
+      deck.remove(topic);
+      DeckDatabase().update(deck);
+    }
   }
 }
