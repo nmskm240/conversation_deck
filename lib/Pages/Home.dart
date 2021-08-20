@@ -40,11 +40,9 @@ class Home extends StatelessWidget {
               ),
             );
           },
-          onLongPress: (Deck? data) {
-            //TODO: デッキを削除する処理
-          },
-          onDismissed: (Deck? deck) {
-            DeckDatabase().deleteAt(deck!.id);
+          onLongPress: (Deck? data) {},
+          onDismissed: (Deck? deck) async {
+            await DeckDatabase().deleteAt(deck!.id);
           },
         ),
       ),
