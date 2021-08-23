@@ -2,54 +2,58 @@ import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DatabaseListTile<T extends DatabaseItem> extends StatelessWidget {
+class DatabaseListTile<T extends DatabaseItem> extends StatefulWidget {
   final T data;
   final void Function(T) onTap;
   final void Function(T) onLongPress;
-  final void Function(T) onDismissed;
+  bool isSelected = false;
 
-  const DatabaseListTile({
-    Key? key,
+  DatabaseListTile({
     required this.data,
     required this.onTap,
     required this.onLongPress,
-    required this.onDismissed,
-  }) : super(key: key);
+  }) : super(key: ObjectKey(data));
+
+  @override
+  _DatabaseListTileState createState() => _DatabaseListTileState(
+        data: data,
+        onTap: onTap,
+        onLongPress: onLongPress,
+      );
+}
+
+class _DatabaseListTileState extends State<DatabaseListTile> {
+  var data;
+  var onTap;
+  var onLongPress;
+
+  _DatabaseListTileState({
+    required this.data,
+    required this.onTap,
+    required this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Dismissible(
-        key: Key(data.id.toString()),
-        direction: DismissDirection.endToStart,
-        child: ListTile(
-          title: Text(data.name),
-          subtitle: Text(data.detail),
-        ),
-        background: Container(
-          alignment: Alignment.centerRight,
-          color: Colors.red,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 5.0, 0.0),
-            child: Icon(
-              Icons.delete, 
-              color: Colors.white,
-            ),
-          ),
-        ),
-        confirmDismiss: (direction) async {
-          return direction == DismissDirection.endToStart;
+    return Ink(
+      child: ListTile(
+        title: Text(data.name),
+        subtitle: Text(data.detail),
+        selected: widget.isSelected,
+        selectedTileColor: Colors.grey,
+        onTap: () {
+          onTap(data);
+          setState(() {
+            widget.isSelected = !widget.isSelected;
+          });
         },
-        onDismissed: (direction) {
-          onDismissed(data);
+        onLongPress: () {
+          onLongPress(data);
+          setState(() {
+            widget.isSelected = true;
+          });
         },
       ),
-      onTap: () {
-        onTap(data);
-      },
-      onLongPress: () {
-        onLongPress(data);
-      },
     );
   }
 }

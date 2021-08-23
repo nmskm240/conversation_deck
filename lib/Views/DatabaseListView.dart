@@ -3,19 +3,33 @@ import 'package:conversation_deck/Models/DatabaseListTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
+class DatabaseListView<T extends DatabaseItem> extends StatefulWidget {
+  final Map<Key, DatabaseListTile> children = Map();
   final Future<List<T>> future;
-  final void Function(T) onTap;
-  final void Function(T) onLongPress;
-  final void Function(T) onDismissed;
+  final DatabaseListTile Function(T) itemBuilder;
 
-  const DatabaseListView(
-      {Key? key,
-      required this.future,
-      required this.onTap,
-      required this.onLongPress,
-      required this.onDismissed})
-      : super(key: key);
+  DatabaseListView({
+    Key? key,
+    required this.future,
+    required this.itemBuilder,
+  }) : super(key: key);
+
+  @override
+  _DatabaseListViewState createState() => _DatabaseListViewState(
+        future: future,
+        itemBuilder: itemBuilder,
+      );
+}
+
+class _DatabaseListViewState<T extends DatabaseItem>
+    extends State<DatabaseListView> {
+  var future;
+  var itemBuilder;
+
+  _DatabaseListViewState({
+    required this.future,
+    required this.itemBuilder,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +63,9 @@ class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
               itemCount: datas!.length,
               itemBuilder: (BuildContext context, int index) {
                 var data = datas[index];
-                return DatabaseListTile(
-                  data: data,
-                  onTap: onTap,
-                  onLongPress: onLongPress,
-                  onDismissed: onDismissed,
-                );
+                var tile = itemBuilder(data);
+                widget.children.addAll({tile.key: tile});
+                return tile;
               },
             );
           } else {

@@ -86,7 +86,7 @@ package "Models "
         +data:T
         +onTap:void Function(T)
         +onLongPress:void Function(T)
-        +onDismissed:void Function(T)
+        +isSelected:bool
     }
     class Deck
     {
@@ -143,10 +143,9 @@ package Views
 {
     class DatabaseListView
     {
+        +children:Map<Key,DatabaseListTile>
         +future:Future<List<T>>
-        +onTap:void Function(T)
-        +onLongPress:void Function(T)
-        +onDismissed:void Function(T)
+        +itemBuilder:DatabaseListTile Function(T)
     }
     class DatePickerFormField
     {

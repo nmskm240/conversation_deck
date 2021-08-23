@@ -1,3 +1,4 @@
+import 'package:conversation_deck/Models/DatabaseListTile.dart';
 import 'package:conversation_deck/Models/Topic.dart';
 import 'package:conversation_deck/Pages/TopicList.dart';
 import 'package:conversation_deck/Views/DatabaseListView.dart';
@@ -16,8 +17,6 @@ abstract class TopicListState extends State<TopicList> {
   @protected
   void onListTileLongPress(Topic topic);
   @protected
-  void onDismissed(Topic topic);
-  @protected
   void update();
 
   @override
@@ -30,11 +29,15 @@ abstract class TopicListState extends State<TopicList> {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: DatabaseListView(
+        child: DatabaseListView<Topic>(
           future: future,
-          onTap: (Topic topic) => onListTileTap(topic),
-          onLongPress: (Topic topic) => onListTileLongPress(topic),
-          onDismissed: (Topic topic) => onDismissed(topic),
+          itemBuilder: (Topic topic) {
+            return DatabaseListTile<Topic>(
+              data: topic,
+              onTap: (Topic topic) => onListTileTap(topic),
+              onLongPress: (Topic topic) => onListTileLongPress(topic),
+            );
+          },
         ),
       ),
     );
