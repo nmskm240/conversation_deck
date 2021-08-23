@@ -1,7 +1,7 @@
-import 'package:conversation_deck/Models/DatabaseListTile.dart';
 import 'package:conversation_deck/Models/Topic.dart';
 import 'package:conversation_deck/Pages/TopicList.dart';
 import 'package:conversation_deck/Views/DatabaseListView.dart';
+import 'package:conversation_deck/Views/Models/DatabaseListTile.dart';
 import 'package:flutter/material.dart';
 
 abstract class TopicListState extends State<TopicList> {

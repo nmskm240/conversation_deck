@@ -81,13 +81,6 @@ package Database
 
 package "Models "
 {
-    class DatabaseListTile<T extends DatabaseItem>
-    {
-        +data:T
-        +onTap:void Function(T)
-        +onLongPress:void Function(T)
-        +isSelected:bool
-    }
     class Deck
     {
         -_topics:List<Topic>
@@ -96,10 +89,6 @@ package "Models "
         +draw(count:int):List<Topic>
         +shuffle():void
         +remove(topic:Topic):void
-    }
-    class FooterItem
-    {
-        +route:Widget
     }
     class Topic
     {
@@ -141,6 +130,20 @@ package Pages
 }
 package Views
 {
+    package " Models"
+    {
+        class DatabaseListTile<T extends DatabaseItem>
+        {
+            +data:T
+            +onTap:void Function(T)
+            +onLongPress:void Function(T)
+            +isSelected:bool
+        }
+        class FooterItem
+        {
+            +route:Widget
+        }
+    }
     class DatabaseListView
     {
         +children:Map<Key,DatabaseListTile>

@@ -1,7 +1,7 @@
 import 'package:conversation_deck/Pages/Home.dart';
 import 'package:conversation_deck/Pages/Setting.dart';
 import 'package:conversation_deck/Views/Footer.dart';
-import 'package:conversation_deck/Models/FooterItem.dart';
+import 'package:conversation_deck/Views/Models/FooterItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'TopicList.dart';
