@@ -1,10 +1,12 @@
 import 'package:conversation_deck/Database/Models/DatabaseItem.dart';
+import 'package:conversation_deck/Views/Data/SelectingData.dart';
 import 'package:conversation_deck/Views/Models/DatabaseListTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class DatabaseListView<T extends DatabaseItem> extends StatefulWidget {
-  final Map<Key, DatabaseListTile> children = Map();
+class DatabaseListView<T extends DatabaseItem> extends StatelessWidget {
+  final SelectingData<T> data = SelectingData<T>();
   final Future<List<T>> future;
   final DatabaseListTile Function(T) itemBuilder;
 
@@ -13,23 +15,6 @@ class DatabaseListView<T extends DatabaseItem> extends StatefulWidget {
     required this.future,
     required this.itemBuilder,
   }) : super(key: key);
-
-  @override
-  _DatabaseListViewState createState() => _DatabaseListViewState(
-        future: future,
-        itemBuilder: itemBuilder,
-      );
-}
-
-class _DatabaseListViewState<T extends DatabaseItem>
-    extends State<DatabaseListView> {
-  var future;
-  var itemBuilder;
-
-  _DatabaseListViewState({
-    required this.future,
-    required this.itemBuilder,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +44,16 @@ class _DatabaseListViewState<T extends DatabaseItem>
           }
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             var datas = snapshot.data;
-            return ListView.builder(
-              itemCount: datas!.length,
-              itemBuilder: (BuildContext context, int index) {
-                var data = datas[index];
-                var tile = itemBuilder(data);
-                widget.children.addAll({tile.key: tile});
-                return tile;
-              },
+            return ChangeNotifierProvider<SelectingData<T>>(
+              create: (context) => data,
+              child: ListView.builder(
+                itemCount: datas!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var data = datas[index];
+                  var tile = itemBuilder(data);
+                  return tile;
+                },
+              ),
             );
           } else {
             return Text("データなし");

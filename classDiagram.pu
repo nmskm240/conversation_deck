@@ -130,6 +130,18 @@ package Pages
 }
 package Views
 {
+    package Data
+    {
+        class SelectingData<T>
+        {
+            -_isSelectingMode:bool
+            -_selections:List<T>
+            +<<property>>isSelectingMode:bool
+            +isSelecting(element:T):bool
+            +add(element:T):void
+            +remove(element:T):void
+        }
+    }
     package " Models"
     {
         class DatabaseListTile<T extends DatabaseItem>
@@ -137,7 +149,6 @@ package Views
             +data:T
             +onTap:void Function(T)
             +onLongPress:void Function(T)
-            +isSelected:bool
         }
         class FooterItem
         {
@@ -146,7 +157,7 @@ package Views
     }
     class DatabaseListView
     {
-        +children:Map<Key,DatabaseListTile>
+        +data:SelectingData
         +future:Future<List<T>>
         +itemBuilder:DatabaseListTile Function(T)
     }
